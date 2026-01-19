@@ -3,105 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Les Aventures de Diyor</title>
+  <title>Qui est Diyor ?</title>
 
   <style>
     body {
       margin: 0;
-      font-family: "Georgia", serif;
-      background: #f3f3f3;
+      font-family: Arial, sans-serif;
+      background: #000;
     }
-
-    .container {
+    .page {
       max-width: 420px;
       margin: auto;
-      background: white;
+      background: #000;
+      color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
-    .hero {
+    img {
       width: 100%;
+      display: block;
     }
-
-    .content {
-      position: relative;
-      padding: 28px 20px 10px;
-      text-align: center;
+    .top {
+      padding: 12px;
     }
-
-    .travel-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      font-size: 22px;
-      letter-spacing: 2px;
-      color: rgba(0, 0, 0, 0.08);
-      white-space: nowrap;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .content h1 {
-      position: relative;
-      font-size: 36px;
-      margin: 25px 0 10px;
-      font-weight: 700;
-    }
-
-    .content p {
-      position: relative;
-      font-size: 17px;
-      line-height: 1.5;
-      color: #444;
-      margin: 0;
-    }
-
-    .start {
-      padding: 20px;
-    }
-
-    .start button {
-      width: 100%;
-      padding: 16px;
-      font-size: 18px;
+    .top button {
+      background: transparent;
       border: none;
-      border-radius: 12px;
+      color: #2b7cff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .text {
+      padding: 16px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .next {
+      padding: 16px;
+    }
+    .next button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
       background: #2b7cff;
       color: white;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="page">
 
-    <img src="diyor.jpg" class="hero" alt="Diyor">
-
-    <div class="content">
-      <div class="travel-bg">
-        ✈︎ Paris • Rome • Berlin • Tokyo • Istanbul • Paris • Rome • Berlin • Tokyo • Istanbul
-      </div>
-
-      <h1>Les Aventures de Diyor</h1>
-      <p>
-        Apprends le français avec Diyor à travers une aventure mystérieuse.
-        Bandes dessinées, jeux, choix et défis linguistiques t’attendent.
-      </p>
+    <!-- Orqaga qaytish -->
+    <div class="top">
+      <button onclick="history.back()">← Retour</button>
     </div>
 
-    <div class="start">
-     <button onclick="location.href='intro.html'">
-  Commencer l’aventure
-</button>
+    <!-- Diyor rasmi -->
+    <img src="Diyor2.jpeg" alt="Diyor se présente">
+
+    <!-- Matn -->
+    <div class="text">
+      <strong>Salut ! Je m’appelle Diyor.</strong><br><br>
+      J’ai 14 ans. Je viens d’Ouzbékistan.<br>
+      J’adore voyager, découvrir de nouvelles villes et parler avec des gens du monde entier.<br><br>
+      Mon rêve est de parcourir le monde…  
+      et d’apprendre le français en chemin.
+    </div>
+
+    <!-- Keyingi sahifaga o‘tish -->
+    <div class="next">
+      <button onclick="location.href='chapter1.html'">
+        Continuer
+      </button>
     </div>
 
   </div>
 </body>
 </html>
-
