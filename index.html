@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Les Aventures de Diyor</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Montserrat', Arial, sans-serif;
       background: #f3f3f3;
     }
+
     .container {
       max-width: 420px;
       margin: auto;
@@ -20,28 +24,68 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
     .hero {
       width: 100%;
+      display: block;
     }
+
     .content {
-      padding: 18px;
+      padding: 22px 18px 10px;
       text-align: center;
+      position: relative;
     }
+
+    .title-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .title-wrap::before {
+      content: "✈︎  Paris  •  Rome  •  Berlin  •  Prague";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: rgba(0,0,0,0.08);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
     .content h1 {
-      margin-top: 10px;
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      margin: 0;
     }
+
+    .content p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-top: 12px;
+      color: #333;
+    }
+
     .start {
       padding: 18px;
     }
+
     .start button {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       font-size: 18px;
       border: none;
-      border-radius: 10px;
-      background: #2b7cff;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2b7cff, #4fa3ff);
       color: white;
       cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .start button:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
@@ -52,7 +96,9 @@
     <img src="diyor.jpg" class="hero" alt="Diyor">
 
     <div class="content">
-      <h1>Les Aventures de Diyor</h1>
+      <div class="title-wrap">
+        <h1>Les Aventures de Diyor</h1>
+      </div>
       <p>
         Apprends le français avec Diyor à travers une aventure mystérieuse.
         Bandes dessinées, jeux, choix et défis linguistiques t’attendent.
