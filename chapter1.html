@@ -6,22 +6,22 @@
   <title>Chapitre 1 – Le message</title>
 
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: Arial, sans-serif;
-      background: #f3f3f3;
+      background: #ffffff;
     }
 
-    .container {
-      max-width: 420px;
-      margin: auto;
-      background: white;
+    .page {
       min-height: 100vh;
-      padding-bottom: 20px;
+      display: flex;
+      flex-direction: column;
     }
 
     .topbar {
-      padding: 12px;
+      padding: 10px 12px;
       font-size: 14px;
     }
 
@@ -31,26 +31,33 @@
       font-weight: bold;
     }
 
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
     .comic {
       width: 100%;
+      height: auto;
       display: block;
-      margin: 10px 0;
     }
 
     .audio-box {
-      padding: 12px;
+      padding: 10px;
       text-align: center;
     }
 
-    .next {
-      padding: 15px;
+    .footer {
+      padding: 12px;
+      background: #fff;
     }
 
-    .next button {
+    .footer button {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       background: #2b7cff;
       color: white;
       font-size: 18px;
@@ -60,24 +67,26 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="page">
 
     <div class="topbar">
       <a href="index.html">← Retour</a>
     </div>
 
-    <!-- Komiks rasmi (100%) -->
-    <img src="message-comic.jpg" class="comic">
+    <div class="content">
+      <!-- Komiks rasm(lar)i to‘liq kenglikda -->
+      <img src="message-comic.jpg" class="comic">
 
-    <!-- Audio -->
-    <div class="audio-box">
-      <audio controls>
-        <source src="scene1.mp3.mp3" type="audio/mpeg">
-      </audio>
+      <!-- Audio -->
+      <div class="audio-box">
+        <audio controls style="width:100%;">
+          <source src="scene1.mp3.mp3" type="audio/mpeg">
+        </audio>
+      </div>
     </div>
 
-    <!-- Tugma -->
-    <div class="next">
+    <!-- Pastki tugma doim eng pastda -->
+    <div class="footer">
       <button onclick="location.href='page2.html'">
         Continuer
       </button>
