@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapitre 1 – Le message</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      min-height: 100vh;
+      padding-bottom: 20px;
+    }
+    .comic {
+      width: 100%;
+      display: block;
+    }
+    .audio-box {
+      padding: 12px;
+      text-align: center;
+    }
+    .text {
+      padding: 14px;
+      font-size: 16px;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .next {
+      padding: 15px;
+    }
+    .next button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #2b7cff;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Komiks rasmi -->
+    <img src="Diyor appel.jpg" class="comic" alt="Un message mystérieux">
+
+    <!-- Audio -->
+    <div class="audio-box">
+      <audio controls preload="auto">
+        <source src="scene1.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l’audio.
+      </audio>
+    </div>
+
+    <!-- Matn -->
+    <div class="text">
+      Un message inconnu apparaît sur son écran…<br>
+      « Si tu veux découvrir le secret, suis les mots… »
+    </div>
+
+    <!-- Keyingi sahifa -->
+    <div class="next">
+      <button onclick="location.href='chapter2.html'">
+        Continuer
+      </button>
+    </div>
+
+  </div>
+</body>
+</html>
