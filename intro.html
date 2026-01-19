@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Qui est Diyor ?</title>
+
   <style>
     body {
       margin: 0;
@@ -15,10 +16,24 @@
       margin: auto;
       background: #000;
       color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     img {
       width: 100%;
       display: block;
+    }
+    .top {
+      padding: 12px;
+    }
+    .top button {
+      background: transparent;
+      border: none;
+      color: #2b7cff;
+      font-size: 16px;
+      cursor: pointer;
     }
     .text {
       padding: 16px;
@@ -36,25 +51,38 @@
       border-radius: 10px;
       background: #2b7cff;
       color: white;
+      cursor: pointer;
     }
   </style>
 </head>
+
 <body>
   <div class="page">
-    <img src="Diyor2.jpeg" alt="Diyor se présente">
 
-    <div class="text">
-      <strong>Salut ! Je m’appelle Diyor.</strong><br>
-      J’ai 14 ans. Je viens d’Ouzbékistan.<br>
-      J’adore voyager, découvrir de nouvelles villes et parler avec des gens du monde entier.<br>
-      Mon rêve est de parcourir le monde… et d’apprendre le français en chemin.
+    <!-- Orqaga qaytish -->
+    <div class="top">
+      <button onclick="history.back()">← Retour</button>
     </div>
 
+    <!-- Diyor rasmi -->
+    <img src="Diyor2.jpeg" alt="Diyor se présente">
+
+    <!-- Matn -->
+    <div class="text">
+      <strong>Salut ! Je m’appelle Diyor.</strong><br><br>
+      J’ai 12 ans. Je viens d’Ouzbékistan.<br>
+      J’adore voyager, découvrir de nouvelles villes et parler avec des gens du monde entier.<br><br>
+      Mon rêve est de parcourir le monde…  
+      et d’apprendre le français en chemin.
+    </div>
+
+    <!-- Keyingi sahifaga o‘tish -->
     <div class="next">
       <button onclick="location.href='chapter1.html'">
         Continuer
       </button>
     </div>
+
   </div>
 </body>
 </html>
