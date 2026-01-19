@@ -6,55 +6,45 @@
   <title>Chapitre 1 – Le message</title>
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
       font-family: Arial, sans-serif;
       background: #ffffff;
     }
 
-    .page {
+    .container {
+      max-width: 420px;
+      margin: auto;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
     .top {
-      padding: 10px;
+      padding: 12px;
       color: #2b7cff;
       font-size: 16px;
+      cursor: pointer;
     }
 
     .content {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
     }
 
     .comic {
       width: 100%;
-      height: auto;
-      max-height: 45vh;
-      object-fit: contain;
       display: block;
     }
 
     .audio-box {
-      padding: 8px;
-      text-align: center;
-    }
-
-    .footer {
-      position: sticky;
-      bottom: 0;
       padding: 12px;
-      background: #ffffff;
     }
 
-    .footer button {
+    .bottom {
+      padding: 15px;
+    }
+
+    .bottom button {
       width: 100%;
       padding: 16px;
       border: none;
@@ -62,32 +52,32 @@
       background: #2b7cff;
       color: white;
       font-size: 18px;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
+  <div class="container">
 
-    <div class="top" onclick="history.back()">← Retour</div>
+    <!-- Retour -->
+    <div class="top" onclick="location.href='intro.html'">← Retour</div>
 
     <div class="content">
-      <!-- 1-rasm -->
+      <!-- Komiks rasmi -->
       <img src="message-comic.jpg" class="comic" alt="Un message mystérieux">
-
-      <!-- 2-rasm -->
-      <img src="message-comic2.jpg" class="comic" alt="Le secret">
 
       <!-- Audio -->
       <div class="audio-box">
-        <audio controls>
+        <audio controls style="width:100%;">
           <source src="scene1.mp3.mp3" type="audio/mpeg">
           Votre navigateur ne supporte pas l’audio.
         </audio>
       </div>
     </div>
 
-    <div class="footer">
+    <!-- Pastdagi tugma -->
+    <div class="bottom">
       <button onclick="location.href='page2.html'">
         Continuer
       </button>
