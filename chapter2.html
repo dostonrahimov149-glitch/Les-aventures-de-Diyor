@@ -28,12 +28,22 @@ body{
   color:#2b7cff;
   font-size:16px;
 }
+
+.hint{
+  text-align:center;
+  padding:10px 14px;
+  color:#f3e3b3;
+  font-size:14px;
+  line-height:1.4;
+}
+
 .map-box{
   position:relative;
   flex:1;
   display:flex;
   align-items:center;
   justify-content:center;
+  padding:8px;
 }
 .map-box img.map{
   width:100%;
@@ -43,9 +53,10 @@ body{
 }
 .lock{
   position:absolute;
-  width:42px;
+  width:32px;
   cursor:pointer;
   opacity:0.4;
+  z-index:10;
 }
 #lock1{ top:55%; left:40%; }
 #lock2{ top:45%; left:55%; }
@@ -76,6 +87,7 @@ body{
   margin-top:6px;
   color:#b00000;
 }
+
 .next{
   padding:12px;
 }
@@ -99,10 +111,17 @@ body{
     <button onclick="location.href='chapter1.html'">← Retour</button>
   </div>
 
+  <div class="hint">
+    Aide Diyor à obtenir la carte secrète.<br>
+    Clique sur les cadenas et réponds bien aux questions.<br>
+    Chaque bonne réponse ouvre un cadenas.<br>
+    Ouvre les trois cadenas pour continuer l’aventure !
+  </div>
+
   <div class="map-box">
     <img src="map.jpg" class="map">
 
-    <img src="lock.png" id="lock1" class="lock" onclick="openQ(1)">
+    <img src="lock.png" id="lock1" class="lock" onclick="openQ(1)" style="opacity:1">
     <img src="lock.png" id="lock2" class="lock" onclick="openQ(2)">
     <img src="lock.png" id="lock3" class="lock" onclick="openQ(3)">
   </div>
@@ -132,33 +151,38 @@ const data = {
   3:{q:"On parle… à Paris.", a:["français","francais"]}
 };
 
-document.getElementById("lock1").style.opacity="1";
-
 function openQ(n){
-  if(n!==unlocked+1) return;
-  current=n;
-  document.getElementById("qbox").style.display="block";
-  document.getElementById("qtext").innerText=data[n].q;
-  document.getElementById("answer").value="";
-  document.getElementById("feedback").innerText="";
+  if(n !== unlocked + 1) return;
+  current = n;
+  document.getElementById("qbox").style.display = "block";
+  document.getElementById("qtext").innerText = data[n].q;
+  document.getElementById("answer").value = "";
+  document.getElementById("feedback").innerText = "";
 }
 
 function check(){
-  const val=document.getElementById("answer").value.trim().toLowerCase();
-  const good=data[current].a;
+  const val = document.getElementById("answer").value.trim().toLowerCase();
+  const good = data[current].a;
 
   if(good.includes(val)){
-    document.getElementById("lock"+current).src="unlock.png";
-    unlocked++;
-    document.getElementById("qbox").style.display="none";
+    const lock = document.getElementById("lock"+current);
+    lock.src = "unlock.png";
 
-    if(unlocked<3){
-      document.getElementById("lock"+(unlocked+1)).style.opacity="1";
+    unlocked++;
+    document.getElementById("qbox").style.display = "none";
+
+    if(unlocked < 3){
+      document.getElementById("lock"+(unlocked+1)).style.opacity = "1";
     } else {
-      document.getElementById("nextBtn").style.opacity="1";
+      // Hammasi ochilgach – qulflarni yashiramiz
+      document.getElementById("lock1").style.display = "none";
+      document.getElementById("lock2").style.display = "none";
+      document.getElementById("lock3").style.display = "none";
+
+      document.getElementById("nextBtn").style.opacity = "1";
     }
   } else {
-    document.getElementById("feedback").innerText="Essaye encore…";
+    document.getElementById("feedback").innerText = "Essaye encore…";
   }
 }
 </script>
