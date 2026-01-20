@@ -1,134 +1,155 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carte mystérieuse</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte mystérieuse</title>
 
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      font-family: Arial, sans-serif;
-    }
+<style>
+body{
+  margin:0;
+  background:#0f0f0f;
+  font-family:Arial, sans-serif;
+}
+.page{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+.map-zone{
+  position:relative;
+  padding:8px;
+}
+.map-zone img{
+  width:100%;
+  border-radius:12px;
+}
 
-    .page {
-      max-width: 420px;
-      margin: auto;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: #0f0f0f;
-    }
+/* Qulflar */
+.lock{
+  position:absolute;
+  width:42px;
+  cursor:pointer;
+}
+#lock1{ top:55%; left:45%; }
+#lock2{ top:35%; left:25%; }
+#lock3{ top:60%; left:70%; }
 
-    .map-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px;
-    }
-
-    .map-wrapper img {
-      width: 100%;
-      max-height: 70vh;
-      object-fit: contain;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-
-    .question-box {
-      margin: 14px;
-      padding: 16px;
-      border-radius: 14px;
-      background: linear-gradient(180deg, #f3e3b3, #e2c98f);
-      box-shadow:
-        inset 0 0 0 2px rgba(120,80,20,0.4),
-        0 6px 18px rgba(0,0,0,0.35);
-      font-family: Georgia, serif;
-    }
-
-    .question-text {
-      margin: 0 0 12px 0;
-      font-size: 18px;
-      color: #4b2e10;
-    }
-
-    .answer-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .answer-row input {
-      flex: 1;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #9c7a3a;
-      font-size: 16px;
-      background: #fff8e6;
-      color: #3a240c;
-    }
-
-    .answer-row input::placeholder {
-      color: #9b7f4a;
-    }
-
-    .answer-row button {
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: none;
-      background: #7a4b12;
-      color: #fff;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .answer-row button:hover {
-      background: #5f3a0e;
-    }
-
-    .feedback {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #6b2d0c;
-      display: none;
-    }
-  </style>
+.question-box{
+  margin:14px;
+  padding:16px;
+  border-radius:14px;
+  background:linear-gradient(180deg,#f3e3b3,#e2c98f);
+  display:none;
+}
+.question-box p{
+  margin:0 0 10px;
+  font-size:18px;
+  color:#4b2e10;
+}
+.row{
+  display:flex;
+  gap:8px;
+}
+.row input{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #9c7a3a;
+}
+.row button{
+  padding:10px 14px;
+  border-radius:8px;
+  border:none;
+  background:#7a4b12;
+  color:white;
+}
+.feedback{
+  margin-top:8px;
+  color:#7a2d0c;
+  display:none;
+}
+.next{
+  padding:14px;
+}
+.next button{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  background:#999;
+  color:white;
+  font-size:18px;
+}
+.next button.active{
+  background:#2b7cff;
+}
+</style>
 </head>
 
 <body>
-  <div class="page">
+<div class="page">
 
-    <div class="map-wrapper">
-      <img src="map.jpg" alt="Carte ancienne">
-    </div>
+<div class="map-zone">
+  <img src="map.jpg" alt="Carte">
+  <img src="lock.png" id="lock1" class="lock" onclick="openLock(1)">
+  <img src="lock.png" id="lock2" class="lock" onclick="openLock(2)" style="opacity:0.4">
+  <img src="lock.png" id="lock3" class="lock" onclick="openLock(3)" style="opacity:0.4">
+</div>
 
-    <div class="question-box">
-      <p class="question-text">Paris est une… ?</p>
-
-      <div class="answer-row">
-        <input id="answer1" type="text" placeholder="Écris le mot…" />
-        <button onclick="checkAnswer()">Valider</button>
-      </div>
-
-      <div id="feedback" class="feedback">Essaye encore…</div>
-    </div>
-
+<div id="box" class="question-box">
+  <p id="question"></p>
+  <div class="row">
+    <input id="answer">
+    <button onclick="check()">Valider</button>
   </div>
+  <div id="fb" class="feedback">Essaye encore…</div>
+</div>
 
-  <script>
-    function checkAnswer() {
-      const value = document.getElementById("answer1").value.trim().toLowerCase();
-      const feedback = document.getElementById("feedback");
+<div class="next">
+  <button id="go">Continuer</button>
+</div>
 
-      if (value === "ville" || value === "capitale") {
-        alert("Bravo ! La carte commence à s’ouvrir…");
-        // keyingi sahifa:
-        // location.href = "page4.html";
-      } else {
-        feedback.style.display = "block";
-      }
+</div>
+
+<script>
+let current = 0;
+
+const data = {
+  1:{q:"Paris est une… ?", a:["ville","capitale"]},
+  2:{q:"Paris est en… ?", a:["france"]},
+  3:{q:"On parle… à Paris.", a:["français","francais"]}
+};
+
+function openLock(n){
+  if(n!==current+1) return;
+  current=n;
+  document.getElementById("box").style.display="block";
+  document.getElementById("question").innerText=data[n].q;
+  document.getElementById("answer").value="";
+  document.getElementById("fb").style.display="none";
+}
+
+function check(){
+  let v=document.getElementById("answer").value.trim().toLowerCase();
+  let ok=data[current].a.includes(v);
+  if(ok){
+    document.getElementById("lock"+current).src="unlock.png";
+    document.getElementById("lock"+current).style.opacity="1";
+    if(current<3){
+      document.getElementById("lock"+(current+1)).style.opacity="1";
+      document.getElementById("box").style.display="none";
+    }else{
+      let b=document.getElementById("go");
+      b.classList.add("active");
+      b.onclick=()=>location.href="page4.html";
     }
-  </script>
+  }else{
+    document.getElementById("fb").style.display="block";
+  }
+}
+</script>
 </body>
 </html>
