@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La carte secrète</title>
+<style>
+body { margin:0; font-family:Arial; background:#111; }
+.container {
+  max-width:420px;
+  margin:auto;
+  position:relative;
+}
+.map {
+  width:100%;
+  display:block;
+}
+.lock {
+  position:absolute;
+  width:48px;
+  height:48px;
+  background:url("lock.png") no-repeat center/contain;
+  cursor:pointer;
+  opacity:0.4;
+}
+.lock.active { opacity:1; }
+.lock.open { background:url("unlock.png") no-repeat center/contain; }
+
+#lock1 { top:45%; left:20%; }
+#lock2 { top:55%; left:45%; }
+#lock3 { top:65%; left:65%; }
+
+.quiz {
+  display:none;
+  padding:15px;
+  background:white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <img src="map.jpg" class="map">
+
+  <div id="lock1" class="lock active" onclick="openQuiz(1)"></div>
+  <div id="lock2" class="lock" onclick="openQuiz(2)"></div>
+  <div id="lock3" class="lock" onclick="openQuiz(3)"></div>
+</div>
+
+<div id="quiz" class="quiz">
+  <p id="question"></p>
+  <input id="answer">
+  <button onclick="check()">OK</button>
+</div>
+
+<script>
+let current = 0;
+
+function openQuiz(n){
+  if(!document.getElementById("lock"+n).classList.contains("active")) return;
+  current = n;
+  document.getElementById("quiz").style.display="block";
+  document.getElementById("question").innerText =
+    n===1 ? "Paris est une … ?" :
+    n===2 ? "Rome est en … ?" :
+            "Tokyo est au … ?";
+}
+
+function check(){
+  const a = document.getElementById("answer").value.toLowerCase();
+  const ok =
+    (current===1 && a==="ville") ||
+    (current===2 && a==="italie") ||
+    (current===3 && a==="japon");
+
+  if(ok){
+    const lock = document.getElementById("lock"+current);
+    lock.classList.add("open");
+    lock.classList.remove("active");
+
+    if(current<3){
+      document.getElementById("lock"+(current+1)).classList.add("active");
+    } else {
+      alert("La carte est ouverte !");
+      location.href="next.html";
+    }
+    document.getElementById("quiz").style.display="none";
+  } else {
+    alert("Essaye encore !");
+  }
+}
+</script>
+
+</body>
+</html>
