@@ -9,12 +9,13 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #ffffff;
+      background: #f3f3f3;
     }
 
-    .container {
+    .page {
       max-width: 420px;
       margin: auto;
+      background: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -22,13 +23,14 @@
 
     .top {
       padding: 12px;
+    }
+
+    .top button {
+      background: none;
+      border: none;
       color: #2b7cff;
       font-size: 16px;
       cursor: pointer;
-    }
-
-    .content {
-      flex: 1;
     }
 
     .comic {
@@ -36,48 +38,69 @@
       display: block;
     }
 
-    .audio-box {
-      padding: 12px;
-    }
-
-    .bottom {
-      padding: 15px;
-    }
-
-    .bottom button {
-      width: 100%;
+    .story {
       padding: 16px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #000;
+    }
+
+    .audio-box {
+      padding: 12px 16px;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding: 16px;
+    }
+
+    .footer button {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       background: #2b7cff;
       color: white;
-      font-size: 18px;
       cursor: pointer;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="page">
 
-    <!-- Retour -->
-    <div class="top" onclick="location.href='intro.html'">← Retour</div>
-
-    <div class="content">
-      <!-- Komiks rasmi -->
-      <img src="message-comic.jpg" class="comic" alt="Un message mystérieux">
-
-      <!-- Audio -->
-      <div class="audio-box">
-        <audio controls style="width:100%;">
-          <source src="scene1.mp3.mp3" type="audio/mpeg">
-          Votre navigateur ne supporte pas l’audio.
-        </audio>
-      </div>
+    <!-- Orqaga qaytish (faqat 1 qadam) -->
+    <div class="top">
+      <button onclick="history.back()">← Retour</button>
     </div>
 
-    <!-- Pastdagi tugma -->
-    <div class="bottom">
+    <!-- Komiks rasmi -->
+    <img src="message-comic.jpg" class="comic" alt="Un message mystérieux">
+
+    <!-- Hikoya matni -->
+    <div class="story">
+      Un jour d’été, Diyor rentrait tranquillement chez lui.<br>
+      Comme toujours, il écoutait de la musique et rêvait de voyages lointains.<br><br>
+
+      Il adorait découvrir le monde, les langues et les cultures.<br>
+      Dans sa tête, Paris, Rome et Tokyo se mélangeaient comme dans un film.<br><br>
+
+      Mais ce jour-là, quelque chose d’étrange allait changer sa vie…<br>
+      Son téléphone vibra soudainement.<br>
+      Un message inconnu apparut sur l’écran.
+    </div>
+
+    <!-- Audio -->
+    <div class="audio-box">
+      <audio controls>
+        <source src="scene1.mp3.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l’audio.
+      </audio>
+    </div>
+
+    <!-- Pastki tugma -->
+    <div class="footer">
       <button onclick="location.href='page2.html'">
         Continuer
       </button>
