@@ -3,90 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La carte secrète</title>
+  <title>Carte mystérieuse</title>
 
   <style>
     body {
       margin: 0;
+      background: #0f0f0f;
       font-family: Arial, sans-serif;
-      background: #000;
     }
 
     .page {
       max-width: 420px;
       margin: auto;
       min-height: 100vh;
-      position: relative;
-      background: #000;
+      display: flex;
+      flex-direction: column;
+      background: #0f0f0f;
     }
 
-    .top {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 10;
-    }
-
-    .top button {
-      background: transparent;
-      border: none;
-      color: #2b7cff;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .map {
-      width: 100%;
-      display: block;
-    }
-
-    .lock {
-      position: absolute;
-      width: 48px;
-      cursor: pointer;
-    }
-
-    /* Qulf joylari */
-    #lock1 { top: 45%; left: 30%; }
-    #lock2 { top: 55%; left: 50%; }
-    #lock3 { top: 40%; left: 65%; }
-
-    .hint {
-      color: white;
-      text-align: center;
-      padding: 12px;
-      font-size: 15px;
-      background: rgba(0,0,0,0.6);
-    }
-
-    /* Chiroyli xato oynasi */
-    .error-box {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      display: none;
+    .map-wrapper {
+      flex: 1;
+      display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      padding: 8px;
     }
 
-    .error-content {
-      background: white;
-      padding: 20px 24px;
+    .map-wrapper img {
+      width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .question-box {
+      margin: 14px;
+      padding: 16px;
       border-radius: 14px;
-      text-align: center;
-      font-size: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      background: linear-gradient(180deg, #f3e3b3, #e2c98f);
+      box-shadow:
+        inset 0 0 0 2px rgba(120,80,20,0.4),
+        0 6px 18px rgba(0,0,0,0.35);
+      font-family: Georgia, serif;
     }
 
-    .error-content button {
-      margin-top: 12px;
-      padding: 8px 18px;
-      border: none;
+    .question-text {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: #4b2e10;
+    }
+
+    .answer-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .answer-row input {
+      flex: 1;
+      padding: 10px 12px;
       border-radius: 8px;
-      background: #2b7cff;
-      color: white;
+      border: 1px solid #9c7a3a;
       font-size: 16px;
+      background: #fff8e6;
+      color: #3a240c;
+    }
+
+    .answer-row input::placeholder {
+      color: #9b7f4a;
+    }
+
+    .answer-row button {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #7a4b12;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .answer-row button:hover {
+      background: #5f3a0e;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #6b2d0c;
+      display: none;
     }
   </style>
 </head>
@@ -94,43 +99,35 @@
 <body>
   <div class="page">
 
-    <div class="top">
-      <button onclick="location.href='chapter1.html'">← Retour</button>
+    <div class="map-wrapper">
+      <img src="map.jpg" alt="Carte ancienne">
     </div>
 
-    <!-- Xarita -->
-    <img src="map.jpg" class="map" alt="Carte ancienne">
+    <div class="question-box">
+      <p class="question-text">Paris est une… ?</p>
 
-    <!-- Qulflar -->
-    <img src="lock.png" id="lock1" class="lock" onclick="tryLock(1)">
-    <img src="lock.png" id="lock2" class="lock" onclick="tryLock(2)">
-    <img src="lock.png" id="lock3" class="lock" onclick="tryLock(3)">
+      <div class="answer-row">
+        <input id="answer1" type="text" placeholder="Écris le mot…" />
+        <button onclick="checkAnswer()">Valider</button>
+      </div>
 
-    <div class="hint">
-      Pour avancer, aide Dior à comprendre.
+      <div id="feedback" class="feedback">Essaye encore…</div>
     </div>
-  </div>
 
-  <!-- Xato oynasi -->
-  <div id="errorBox" class="error-box">
-    <div class="error-content">
-      <p>Essaye encore… 🌟</p>
-      <button onclick="closeError()">OK</button>
-    </div>
   </div>
 
   <script>
-    function tryLock(n) {
-      // Hozircha hammasi "noto‘g‘ri" deb qaraymiz
-      showError();
-    }
+    function checkAnswer() {
+      const value = document.getElementById("answer1").value.trim().toLowerCase();
+      const feedback = document.getElementById("feedback");
 
-    function showError() {
-      document.getElementById("errorBox").style.display = "flex";
-    }
-
-    function closeError() {
-      document.getElementById("errorBox").style.display = "none";
+      if (value === "ville" || value === "capitale") {
+        alert("Bravo ! La carte commence à s’ouvrir…");
+        // keyingi sahifa:
+        // location.href = "page4.html";
+      } else {
+        feedback.style.display = "block";
+      }
     }
   </script>
 </body>
