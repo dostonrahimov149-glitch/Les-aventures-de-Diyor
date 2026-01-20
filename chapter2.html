@@ -3,126 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La carte mystérieuse</title>
+<title>Carte secrète</title>
 
 <style>
-  body{
-    margin:0;
-    font-family: "Georgia", serif;
-    background:#0f0f0f;
-    color:#fff;
-  }
+body{
+  margin:0;
+  background:#000;
+  font-family: Arial, sans-serif;
+  color:white;
+}
+.page{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+.top{
+  padding:10px;
+}
+.top button{
+  background:none;
+  border:none;
+  color:#2b7cff;
+  font-size:16px;
+}
+.map-box{
+  position:relative;
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.map-box img.map{
+  width:100%;
+  max-height:80vh;
+  object-fit:contain;
+  border-radius:14px;
+}
+.lock{
+  position:absolute;
+  width:42px;
+  cursor:pointer;
+  opacity:0.4;
+}
+#lock1{ top:55%; left:40%; }
+#lock2{ top:45%; left:55%; }
+#lock3{ top:60%; left:60%; }
 
-  .page{
-    max-width:420px;
-    margin:auto;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-  }
-
-  .map-zone{
-    position:relative;
-    padding:12px;
-  }
-
-  .map-zone img.map{
-    width:100%;
-    border-radius:14px;
-    display:block;
-    box-shadow:0 10px 30px rgba(0,0,0,.6);
-  }
-
-  .lock{
-    position:absolute;
-    width:28px;
-    cursor:pointer;
-    z-index:10;
-    transition:transform .2s;
-  }
-  .lock:hover{ transform:scale(1.1); }
-
-  /* Xarita ichidagi joylar */
-  #lock1{ top:52%; left:46%; }
-  #lock2{ top:38%; left:28%; opacity:.4; }
-  #lock3{ top:60%; left:68%; opacity:.4; }
-
-  .question-box{
-    background:#f3e1b6;
-    color:#3b2a10;
-    margin:12px;
-    padding:14px;
-    border-radius:14px;
-    display:none;
-    box-shadow:0 8px 20px rgba(0,0,0,.4);
-  }
-
-  .question-box h3{
-    margin:0 0 8px;
-    font-weight:normal;
-  }
-
-  .question-box input{
-    width:65%;
-    padding:8px;
-    border-radius:8px;
-    border:1px solid #b48a3d;
-    font-size:16px;
-  }
-
-  .question-box button{
-    padding:8px 14px;
-    margin-left:6px;
-    border:none;
-    border-radius:8px;
-    background:#8a5a12;
-    color:white;
-    font-size:16px;
-  }
-
-  .feedback{
-    margin-top:6px;
-    font-style:italic;
-    color:#8a5a12;
-  }
-
-  .next{
-    padding:12px;
-  }
-
-  .next button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:#2b7cff;
-    color:white;
-    font-size:18px;
-    opacity:.4;
-  }
+.question{
+  display:none;
+  background:#f3e3b3;
+  color:#4a2d00;
+  margin:10px;
+  padding:12px;
+  border-radius:14px;
+}
+.question input{
+  width:70%;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #b08a3c;
+}
+.question button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  background:#8a5a00;
+  color:white;
+}
+#feedback{
+  margin-top:6px;
+  color:#b00000;
+}
+.next{
+  padding:12px;
+}
+.next button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#2b7cff;
+  color:white;
+  font-size:16px;
+  opacity:0.4;
+}
 </style>
 </head>
 
 <body>
 <div class="page">
 
-  <div class="map-zone">
-    <img src="map.jpg" class="map" alt="Carte">
-    <img src="lock.png" id="lock1" class="lock" onclick="openLock(1)">
-    <img src="lock.png" id="lock2" class="lock" onclick="openLock(2)">
-    <img src="lock.png" id="lock3" class="lock" onclick="openLock(3)">
+  <div class="top">
+    <button onclick="location.href='chapter1.html'">← Retour</button>
   </div>
 
-  <div id="qbox" class="question-box">
-    <h3 id="question"></h3>
-    <input id="answer" placeholder="Écris ici">
-    <button onclick="check()">Valider</button>
-    <div id="feedback" class="feedback"></div>
+  <div class="map-box">
+    <img src="map.jpg" class="map">
+
+    <img src="lock.png" id="lock1" class="lock" onclick="openQ(1)">
+    <img src="lock.png" id="lock2" class="lock" onclick="openQ(2)">
+    <img src="lock.png" id="lock3" class="lock" onclick="openQ(3)">
+  </div>
+
+  <div class="question" id="qbox">
+    <div id="qtext"></div>
+    <input id="answer" placeholder="Écris ta réponse">
+    <button onclick="check()">OK</button>
+    <div id="feedback"></div>
   </div>
 
   <div class="next">
-    <button id="nextBtn" onclick="location.href='next.html'">Continuer</button>
+    <button id="nextBtn" onclick="location.href='chapter4.html'">
+      Continuer
+    </button>
   </div>
 
 </div>
@@ -131,35 +126,38 @@
 let current = 0;
 let unlocked = 0;
 
-const questions = {
- 1:{q:"Paris est une… ?", a:["ville","capitale"]},
+const data = {
+  1:{q:"Paris est une… ?", a:["ville","capitale"]},
   2:{q:"Paris est en… ?", a:["france"]},
-  3:{ q:"La tour célèbre à Paris s’appelle… ?", a:"eiffel" }
+  3:{q:"On parle… à Paris.", a:["français","francais"]}
 };
 
-function openLock(n){
-  if(n !== unlocked+1) return;
-  current = n;
+document.getElementById("lock1").style.opacity="1";
+
+function openQ(n){
+  if(n!==unlocked+1) return;
+  current=n;
   document.getElementById("qbox").style.display="block";
-  document.getElementById("question").innerText = questions[n].q;
+  document.getElementById("qtext").innerText=data[n].q;
   document.getElementById("answer").value="";
   document.getElementById("feedback").innerText="";
 }
 
 function check(){
-  const val = document.getElementById("answer").value.trim().toLowerCase();
-  if(val === questions[current].a){
+  const val=document.getElementById("answer").value.trim().toLowerCase();
+  const good=data[current].a;
+
+  if(good.includes(val)){
     document.getElementById("lock"+current).src="unlock.png";
-    document.getElementById("lock"+current).style.opacity="1";
     unlocked++;
     document.getElementById("qbox").style.display="none";
 
-    if(unlocked < 3){
+    if(unlocked<3){
       document.getElementById("lock"+(unlocked+1)).style.opacity="1";
-    }else{
+    } else {
       document.getElementById("nextBtn").style.opacity="1";
     }
-  }else{
+  } else {
     document.getElementById("feedback").innerText="Essaye encore…";
   }
 }
