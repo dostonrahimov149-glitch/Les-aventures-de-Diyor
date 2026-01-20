@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapitre 3 – Paris… j’arrive !</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+    }
+
+    .page {
+      max-width: 420px;
+      margin: auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #000;
+    }
+
+    .top {
+      padding: 12px;
+    }
+
+    .top button {
+      background: transparent;
+      border: none;
+      color: #4da3ff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .comic {
+      width: 100%;
+      display: block;
+    }
+
+    .text {
+      padding: 14px 16px;
+      text-align: center;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .next {
+      padding: 16px;
+    }
+
+    .next button {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background: #2b7cff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .audio {
+      display: none; /* ko‘rinmas, lekin ishlaydi */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- Retour -->
+    <div class="top">
+      <button onclick="location.href='chapter2.html'">← Retour</button>
+    </div>
+
+    <!-- Komiks rasmi -->
+    <img src="paris-journey.jpg" class="comic" alt="Paris… j’arrive !">
+
+    <!-- Hikoya matni -->
+    <div class="text">
+      <strong>« Paris… j’arrive ! »</strong><br><br>
+      Le voyage commence.<br>
+      Diyor fait son premier pas vers Paris.
+    </div>
+
+    <!-- Continuer -->
+    <div class="next">
+      <button onclick="location.href='chapter4.html'">
+        Continuer
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Fon musiqasi -->
+  <audio class="audio" autoplay loop>
+    <source src="journey.mp3" type="audio/mpeg">
+  </audio>
+
+</body>
+</html>
