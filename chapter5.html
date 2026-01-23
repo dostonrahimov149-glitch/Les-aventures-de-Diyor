@@ -86,14 +86,26 @@
 
     .overlay-content {
       position: absolute;
-      bottom: 50px;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
       color: white;
-      padding: 0 20px;
+      padding: 20px 24px;
+      background: rgba(0,0,0,0.55);
+      border-radius: 20px;
+      max-width: 90%;
     }
 
     .overlay-content p {
-      font-size: 22px;
+      font-size: 24px;
+      line-height: 1.4;
+      margin: 6px 0;
+    }
+
+    .overlay-content .small {
+      font-size: 18px;
+      opacity: 0.9;
     }
 
     .btn {
@@ -119,13 +131,13 @@
   <div class="tokens">
     <div class="token" onclick="pick(this,'R')">Réseau</div>
     <div class="token" onclick="pick(this,'X')">Énergie</div>
+    <div class="token" onclick="pick(this,'X')">Rapide</div>
     <div class="token" onclick="pick(this,'R')">Régional</div>
     <div class="token" onclick="pick(this,'X')">Rêve</div>
     <div class="token" onclick="pick(this,'X')">École</div>
     <div class="token" onclick="pick(this,'X')">Route</div>
     <div class="token" onclick="pick(this,'E')">Express</div>
-        <div class="token" onclick="pick(this,'X')">Rapide</div>
-  </div>
+      </div>
 
   <div id="msg"></div>
 </div>
@@ -135,7 +147,12 @@
   <img src="rer-train.jpeg" alt="RER Train">
   <div class="overlay-content">
     <p><strong>Bravo !</strong></p>
-    <p>RER = Réseau Express Régional.<br>Diyor peut continuer son voyage.</p>
+    <p>RER = Réseau Express Régional</p>
+    <p class="small">
+      C’est un train rapide qui relie l’aéroport<br>
+      au centre de Paris.
+    </p>
+
     <button class="btn" onclick="location.href='chapter6.html'">
       Continuer →
     </button>
