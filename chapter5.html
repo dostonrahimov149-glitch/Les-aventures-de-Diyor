@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapitre 5 – Le code RER</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #87ceeb, #ffffff);
+      color: #0a1a2a;
+    }
+
+    .page {
+      max-width: 420px;
+      margin: 40px auto;
+      padding: 24px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 22px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .tokens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .token {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 2px solid #2b7cff;
+      background: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .token.used {
+      background: #2b7cff;
+      color: white;
+    }
+
+    #msg {
+      margin-top: 16px;
+      min-height: 24px;
+    }
+
+    /* Overlay train */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay-content {
+      position: absolute;
+      bottom: 40px;
+      text-align: center;
+      color: white;
+    }
+
+    .btn {
+      margin-top: 14px;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 18px;
+      background: #2b7cff;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <h2>🔐 Décode le message secret</h2>
+  <p><strong>RER = ? ? ?</strong></p>
+  <p>Trouve les trois bons mots.</p>
+
+  <div class="tokens">
+    <div class="token" onclick="pick(this,'R')">Réseau</div>
+    <div class="token" onclick="pick(this,'E')">Express</div>
+    <div class="token" onclick="pick(this,'R')">Régional</div>
+
+    <div class="token" onclick="pick(this,'X')">Rêve</div>
+    <div class="token" onclick="pick(this,'X')">École</div>
+    <div class="token" onclick="pick(this,'X')">Route</div>
+    <div class="token" onclick="pick(this,'X')">Énergie</div>
+    <div class="token" onclick="pick(this,'X')">Rapide</div>
+  </div>
+
+  <div id="msg"></div>
+</div>
+
+<!-- Fullscreen Train -->
+<div class="overlay" id="overlay">
+  <img src="rer-train.jpg" alt="RER Train">
+  <div class="overlay-content">
+    <p><strong>Bravo !</strong></p>
+    <p>RER = Réseau Express Régional.<br>Diyor peut continuer son voyage.</p>
+    <button class="btn" onclick="location.href='chapter6.html'">
+      Continuer →
+    </button>
+  </div>
+</div>
+
+<script>
+  let code = [];
+
+  function pick(el, type) {
+    if (el.classList.contains("used")) return;
+
+    el.classList.add("used");
+    code.push(type);
+
+    if (code.length === 3) {
+      check();
+    }
+  }
+
+  function check() {
+    const msg = document.getElementById("msg");
+
+    if (code.join("") === "RER") {
+      document.getElementById("overlay").style.display = "flex";
+    } else {
+      msg.style.color = "red";
+      msg.innerText = "Ce n’est pas le bon code… Regarde bien : R – E – R.";
+      setTimeout(reset, 1200);
+    }
+  }
+
+  function reset() {
+    code = [];
+    document.querySelectorAll(".token").forEach(t => t.classList.remove("used"));
+    document.getElementById("msg").innerText = "";
+  }
+</script>
+
+</body>
+</html>
