@@ -3,15 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapitre 4</title>
+  <title>À l’aéroport Charles de Gaulle</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .page {
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
+      text-align: center;
+    }
+    img {
+      width: 100%;
+      border-radius: 14px;
+      margin: 16px 0;
+    }
+    .dialogue {
+      background: #111;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 12px;
+      background: #2b7cff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .back {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      color: #2b7cff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
 </head>
-<body style="background:#000;color:#fff;font-family:Arial;text-align:center;padding:40px;">
-  <h1>Chapitre 4 arrive bientôt…</h1>
-  <p>L’aventure continue.</p>
-  <button onclick="location.href='chapter3.html'"
-          style="padding:12px 20px;border:none;border-radius:10px;background:#2b7cff;color:white;font-size:16px;">
-    ← Retour
+<body>
+
+<a class="back" href="chapter3.html">← Retour</a>
+
+<div class="page">
+  <h1>À l’aéroport</h1>
+  <h2>Charles de Gaulle</h2>
+
+  <p>Diyor arrive en France. Tout est grand. Tout est nouveau.</p>
+
+  <!-- Diyor portreti -->
+  <img src="diyor.jpg" alt="Diyor à l’aéroport">
+
+  <!-- Komiks sahnasi -->
+  <img src="airport-comic.jpg" alt="Diyor se perd à l’aéroport">
+
+  <div class="dialogue">
+    <p><strong>Diyor :</strong> « Où suis-je ? »</p>
+    <p><strong>Employé :</strong> « Bonjour, tu es perdu ? »</p>
+    <p><strong>Diyor :</strong> « Oui… je cherche le centre de Paris. »</p>
+    <p><strong>Employé :</strong> « Prends le RER B. Direction : Paris. »</p>
+    <p><strong>Diyor :</strong> « Merci beaucoup ! »</p>
+  </div>
+
+  <button class="btn" onclick="location.href='chapter4-game.html'">
+    Continuer →
   </button>
+</div>
+
 </body>
 </html>
-
