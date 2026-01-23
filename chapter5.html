@@ -13,30 +13,46 @@
     }
 
     .page {
-      max-width: 420px;
-      margin: 40px auto;
-      padding: 24px;
+      min-height: 100vh;
+      width: 100%;
+      margin: 0;
+      padding: 40px 20px;
       background: rgba(255,255,255,0.9);
-      border-radius: 22px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      border-radius: 0;
+      box-shadow: none;
       text-align: center;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .page p {
+      font-size: 22px;
+      margin: 8px 0;
     }
 
     .tokens {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 16px;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .token {
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 2px solid #2b7cff;
+      padding: 18px 26px;
+      border-radius: 18px;
+      border: 3px solid #2b7cff;
       background: #fff;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     .token.used {
@@ -45,8 +61,9 @@
     }
 
     #msg {
-      margin-top: 16px;
-      min-height: 24px;
+      margin-top: 24px;
+      min-height: 32px;
+      font-size: 20px;
     }
 
     /* Overlay train */
@@ -69,19 +86,24 @@
 
     .overlay-content {
       position: absolute;
-      bottom: 40px;
+      bottom: 50px;
       text-align: center;
       color: white;
+      padding: 0 20px;
+    }
+
+    .overlay-content p {
+      font-size: 22px;
     }
 
     .btn {
-      margin-top: 14px;
-      padding: 16px 36px;
+      margin-top: 18px;
+      padding: 18px 42px;
       border: none;
-      border-radius: 18px;
+      border-radius: 22px;
       background: #2b7cff;
       color: white;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       cursor: pointer;
     }
@@ -96,14 +118,13 @@
 
   <div class="tokens">
     <div class="token" onclick="pick(this,'R')">Réseau</div>
-    <div class="token" onclick="pick(this,'E')">Express</div>
+    <div class="token" onclick="pick(this,'X')">Énergie</div>
     <div class="token" onclick="pick(this,'R')">Régional</div>
-
     <div class="token" onclick="pick(this,'X')">Rêve</div>
     <div class="token" onclick="pick(this,'X')">École</div>
     <div class="token" onclick="pick(this,'X')">Route</div>
-    <div class="token" onclick="pick(this,'X')">Énergie</div>
-    <div class="token" onclick="pick(this,'X')">Rapide</div>
+    <div class="token" onclick="pick(this,'E')">Express</div>
+        <div class="token" onclick="pick(this,'X')">Rapide</div>
   </div>
 
   <div id="msg"></div>
