@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapitre 9 – Sous le pont</title>
+<title>Chapitre 9 – Les mots cachés</title>
 <style>
 body{
   margin:0;
@@ -14,29 +14,27 @@ body{
 }
 .page{max-width:480px;margin:auto;padding:40px 16px;}
 h2{font-size:28px}
-.zone{
-  margin:20px 0;
-  padding:16px;
-  border-radius:16px;
-  background:rgba(255,255,255,.1)
-}
-.letters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.letters,.slots{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0}
 .letter{
   width:48px;height:48px;border-radius:12px;
   background:#2b7cff;color:white;
   display:flex;align-items:center;justify-content:center;
-  font-size:22px;cursor:grab;
+  font-size:22px;cursor:pointer;
 }
-.slots{display:flex;gap:12px;justify-content:center;margin-top:12px}
 .slot{
   width:48px;height:48px;border:2px dashed #6fb3ff;
   border-radius:12px;display:flex;align-items:center;justify-content:center;
   font-size:22px
 }
 .hidden{display:none}
-.question{margin:12px 0}
-.light{font-size:26px;opacity:.3}
-.light.on{opacity:1}
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+}
+.overlay img{
+  max-width:90%;max-height:80%;border-radius:16px;
+}
 .btn{
   margin-top:24px;padding:16px 40px;border:none;border-radius:22px;
   background:#2b7cff;color:white;font-size:20px;font-weight:bold;
@@ -46,129 +44,92 @@ h2{font-size:28px}
 <body>
 
 <div class="page">
-
-<!-- ÉTAPE 1 -->
-<div id="step1" class="zone">
-  <h2>🌉 Sous le pont, un mot dort</h2>
-  <p>Glisse les lettres pour former le mot caché.</p>
-
-  <div class="letters" id="letters">
-    <div class="letter" draggable="true">P</div>
-    <div class="letter" draggable="true">O</div>
-    <div class="letter" draggable="true">N</div>
-    <div class="letter" draggable="true">T</div>
-    <div class="letter" draggable="true">R</div>
-    <div class="letter" draggable="true">I</div>
-    <div class="letter" draggable="true">V</div>
-    <div class="letter" draggable="true">E</div>
-  </div>
-
-  <div class="slots">
-    <div class="slot"></div>
-    <div class="slot"></div>
-    <div class="slot"></div>
-    <div class="slot"></div>
-  </div>
-
-  <p id="msg1"></p>
+  <h2 id="title">🔎 Trouve le mot caché</h2>
+  <div class="slots" id="slots"></div>
+  <div class="letters" id="letters"></div>
 </div>
 
-<!-- ÉTAPE 2 -->
-<div id="step2" class="zone hidden">
-  <h2>💡 Allume les lumières</h2>
-
-  <div class="question">
-    pont = ?
-    <br>
-    <button onclick="good(0)">pont</button>
-    <button onclick="bad()">ville</button>
-  </div>
-
-  <div class="question">
-    nuit = ?
-    <br>
-    <button onclick="bad()">jour</button>
-    <button onclick="good(1)">nuit</button>
-  </div>
-
-  <div class="question">
-    rive = ?
-    <br>
-    <button onclick="good(2)">bord du fleuve</button>
-    <button onclick="bad()">maison</button>
-  </div>
-
-  <div class="question">
-    lumière = ?
-    <br>
-    <button onclick="bad()">noir</button>
-    <button onclick="good(3)">lumière</button>
-  </div>
-
-  <div class="question">
-    ville = ?
-    <br>
-    <button onclick="bad()">forêt</button>
-    <button onclick="good(4)">ville</button>
-  </div>
-
-  <div>
-    <span class="light" id="l0">💡</span>
-    <span class="light" id="l1">💡</span>
-    <span class="light" id="l2">💡</span>
-    <span class="light" id="l3">💡</span>
-    <span class="light" id="l4">💡</span>
-  </div>
-
-  <p id="secret" class="hidden" style="font-size:28px;margin-top:20px;">
-    🔑 Le mot secret est : <strong>PARIS</strong>
-  </p>
-
-  <button class="btn hidden" id="next" onclick="location.href='chapter10.html'">
-    Continuer →
-  </button>
-</div>
-
+<div class="overlay" id="overlay">
+  <img id="img" src="">
 </div>
 
 <script>
-let dragged=null;
-document.querySelectorAll(".letter").forEach(l=>{
-  l.addEventListener("dragstart",()=>dragged=l);
-});
-document.querySelectorAll(".slot").forEach(s=>{
-  s.addEventListener("dragover",e=>e.preventDefault());
-  s.addEventListener("drop",()=>{
-    if(!s.textContent){
-      s.textContent=dragged.textContent;
-      checkWord();
-    }
-  });
-});
+const words = [
+  {w:"SEINE", img:"seine.jpg"},
+  {w:"LOUVRE", img:"louvre.jpg"},
+  {w:"MONTMARTRE", img:"montmartre.jpg"}
+];
 
-function checkWord(){
-  let word="";
-  document.querySelectorAll(".slot").forEach(s=>word+=s.textContent);
-  if(word.length===4){
-    if(word==="PONT"){
-      document.getElementById("step1").classList.add("hidden");
-      document.getElementById("step2").classList.remove("hidden");
-    }else{
-      document.getElementById("msg1").innerText="Essaie encore…";
-      setTimeout(()=>{
-        document.querySelectorAll(".slot").forEach(s=>s.textContent="");
-        document.getElementById("msg1").innerText="";
-      },1200);
+let index = 0;
+let current = "";
+
+function shuffle(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+function loadWord(){
+  current = "";
+  const word = words[index].w.split("");
+  const slots = document.getElementById("slots");
+  const letters = document.getElementById("letters");
+  slots.innerHTML = "";
+  letters.innerHTML = "";
+
+  word.forEach(()=> {
+    const s = document.createElement("div");
+    s.className="slot";
+    slots.appendChild(s);
+  });
+
+  shuffle(word).forEach(ch=>{
+    const l = document.createElement("div");
+    l.className="letter";
+    l.textContent=ch;
+    l.onclick=()=>pick(ch,l);
+    letters.appendChild(l);
+  });
+}
+
+function pick(ch, el){
+  const slots = document.querySelectorAll(".slot");
+  for(let s of slots){
+    if(!s.textContent){
+      s.textContent = ch;
+      el.style.visibility="hidden";
+      current += ch;
+      break;
+    }
+  }
+  if(current.length === words[index].w.length){
+    if(current === words[index].w){
+      showImage();
+    } else {
+      setTimeout(loadWord,800);
     }
   }
 }
 
-let lights=0;
-function good(i){
-  const l=document.getElementById("l"+i);
-  if(!l.classList.contains("on")){
-    l.classList.add("on");
-    lights++;
-    if(lights===5){
-      document.getElementById("secret").classList.remove("hidden");
-      document.getElementById("next").clas
+function showImage(){
+  const ov = document.getElementById("overlay");
+  const img = document.getElementById("img");
+  img.src = words[index].img;
+  ov.style.display="flex";
+
+  setTimeout(()=>{
+    ov.style.display="none";
+    index++;
+    if(index < words.length){
+      loadWord();
+    } else {
+      document.querySelector(".page").innerHTML =
+        `<h2>🎉 Paris est ouvert !</h2>
+         <button class="btn" onclick="location.href='chapter10.html'">Continuer →</button>`;
+    }
+  },7000);
+}
+
+loadWord();
+</script>
+
+</body>
+</html>
