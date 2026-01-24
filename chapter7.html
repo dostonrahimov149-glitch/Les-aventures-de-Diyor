@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 7 – Le drapeau</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #87ceeb, #ffffff);
+    text-align: center;
+    color: #0a1a2a;
+  }
+
+  .page {
+    min-height: 100vh;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  h2 { font-size: 34px; margin-bottom: 10px; }
+  p { font-size: 22px; }
+
+  .palette {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 30px 0;
+  }
+
+  .color {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #000;
+    cursor: pointer;
+  }
+
+  .flag {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .part {
+    width: 110px;
+    height: 200px;
+    border: 3px solid #000;
+    background: white;
+  }
+
+  #msg {
+    margin-top: 24px;
+    font-size: 22px;
+    min-height: 32px;
+  }
+
+  .btn {
+    margin-top: 24px;
+    padding: 18px 42px;
+    border-radius: 22px;
+    border: none;
+    background: #2b7cff;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    display: none;
+  }
+
+  .back {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    color: #2b7cff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="chapter6.html">← Retour</a>
+
+<div class="page">
+  <h2>🎨 Colorie le drapeau de la France</h2>
+  <p>Choisis les bonnes couleurs.</p>
+
+  <div class="palette">
+    <div class="color" style="background:#1e90ff" onclick="select('#1e90ff')"></div>
+    <div class="color" style="background:#ffffff" onclick="select('#ffffff')"></div>
+    <div class="color" style="background:#e63946" onclick="select('#e63946')"></div>
+  </div>
+
+  <div class="flag">
+    <div class="part" onclick="paint(this)"></div>
+    <div class="part" onclick="paint(this)"></div>
+    <div class="part" onclick="paint(this)"></div>
+  </div>
+
+  <div id="msg"></div>
+  <button class="btn" id="next" onclick="location.href='chapter8.html'">
+    Continuer →
+  </button>
+</div>
+
+<script>
+let current = null;
+let filled = [];
+
+function select(color) {
+  current = color;
+}
+
+function paint(el) {
+  if (!current) return;
+  if (el.dataset.done) return;
+
+  el.style.background = current;
+  el.dataset.done = "1";
+  filled.push(current);
+
+  if (filled.length === 3) {
+    check();
+  }
+}
+
+function check() {
+  const msg = document.getElementById("msg");
+  const good = ["#1e90ff", "#ffffff", "#e63946"];
+
+  if (JSON.stringify(filled) === JSON.stringify(good)) {
+    msg.style.color = "green";
+    msg.innerText = "Bravo ! Le drapeau est correct.";
+    document.getElementById("next").style.display = "inline-block";
+  } else {
+    msg.style.color = "red";
+    msg.innerText = "Ce n’est pas le bon ordre… Essaye encore.";
+    setTimeout(reset, 1200);
+  }
+}
+
+function reset() {
+  filled = [];
+  document.querySelectorAll(".part").forEach(p => {
+    p.style.background = "white";
+    p.dataset.done = "";
+  });
+  document.getElementById("msg").innerText = "";
+}
+</script>
+
+</body>
+</html>
