@@ -13,8 +13,12 @@ body{
   text-align:center;
 }
 .page{max-width:480px;margin:auto;padding:40px 16px;}
-h2{font-size:28px}
-.letters,.slots{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0}
+h2{font-size:26px}
+.hint{font-size:18px;opacity:.9;margin:10px 0 20px}
+.letters,.slots{
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:center;margin:20px 0
+}
 .letter{
   width:48px;height:48px;border-radius:12px;
   background:#2b7cff;color:white;
@@ -45,6 +49,7 @@ h2{font-size:28px}
 
 <div class="page">
   <h2 id="title">🔎 Trouve le mot caché</h2>
+  <div class="hint" id="hint"></div>
   <div class="slots" id="slots"></div>
   <div class="letters" id="letters"></div>
 </div>
@@ -54,10 +59,22 @@ h2{font-size:28px}
 </div>
 
 <script>
-const words = [
-  {w:"SEINE", img:"seine.jpg"},
-  {w:"LOUVRE", img:"louvre.jpg"},
-  {w:"MONTMARTRE", img:"montmartre.jpg"}
+const steps = [
+  {
+    w:"SEINE",
+    img:"seine.jpg",
+    hint:"🌊 C’est un fleuve. Il traverse le cœur de Paris."
+  },
+  {
+    w:"LOUVRE",
+    img:"louvre.jpg",
+    hint:"🏛️ C’est un grand musée. On y trouve des trésors du monde."
+  },
+  {
+    w:"MONTMARTRE",
+    img:"montmartre.jpg",
+    hint:"🌙 C’est une colline. La nuit, Paris y brille."
+  }
 ];
 
 let index = 0;
@@ -69,19 +86,21 @@ function shuffle(arr){
 
 function loadWord(){
   current = "";
-  const word = words[index].w.split("");
+  const data = steps[index];
+  document.getElementById("hint").innerText = data.hint;
+
   const slots = document.getElementById("slots");
   const letters = document.getElementById("letters");
   slots.innerHTML = "";
   letters.innerHTML = "";
 
-  word.forEach(()=> {
+  data.w.split("").forEach(()=> {
     const s = document.createElement("div");
     s.className="slot";
     slots.appendChild(s);
   });
 
-  shuffle(word).forEach(ch=>{
+  shuffle(data.w.split("")).forEach(ch=>{
     const l = document.createElement("div");
     l.className="letter";
     l.textContent=ch;
@@ -92,6 +111,7 @@ function loadWord(){
 
 function pick(ch, el){
   const slots = document.querySelectorAll(".slot");
+
   for(let s of slots){
     if(!s.textContent){
       s.textContent = ch;
@@ -100,25 +120,32 @@ function pick(ch, el){
       break;
     }
   }
-  if(current.length === words[index].w.length){
-    if(current === words[index].w){
+
+  if(current.length === steps[index].w.length){
+    if(current === steps[index].w){
       showImage();
     } else {
-      setTimeout(loadWord,800);
+      setTimeout(reset, 600);
     }
   }
+}
+
+function reset(){
+  current = "";
+  document.querySelectorAll(".slot").forEach(s=>s.textContent="");
+  document.querySelectorAll(".letter").forEach(l=>l.style.visibility="visible");
 }
 
 function showImage(){
   const ov = document.getElementById("overlay");
   const img = document.getElementById("img");
-  img.src = words[index].img;
+  img.src = steps[index].img;
   ov.style.display="flex";
 
   setTimeout(()=>{
     ov.style.display="none";
     index++;
-    if(index < words.length){
+    if(index < steps.length){
       loadWord();
     } else {
       document.querySelector(".page").innerHTML =
