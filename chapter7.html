@@ -26,14 +26,15 @@
 
   .palette {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 18px;
-    margin: 30px 0;
+    gap: 14px;
+    margin: 28px 0;
   }
 
   .color {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     border: 3px solid #000;
     cursor: pointer;
@@ -87,12 +88,18 @@
 
 <div class="page">
   <h2>🎨 Colorie le drapeau de la France</h2>
-  <p>Choisis les bonnes couleurs.</p>
+  <p>Choisis les bonnes couleurs dans le bon ordre.</p>
 
   <div class="palette">
-    <div class="color" style="background:#1e90ff" onclick="select('#1e90ff')"></div>
-    <div class="color" style="background:#ffffff" onclick="select('#ffffff')"></div>
-    <div class="color" style="background:#e63946" onclick="select('#e63946')"></div>
+    <div class="color" style="background:#1e90ff" onclick="select('#1e90ff')"></div> <!-- bleu -->
+    <div class="color" style="background:#ffffff" onclick="select('#ffffff')"></div> <!-- blanc -->
+    <div class="color" style="background:#e63946" onclick="select('#e63946')"></div> <!-- rouge -->
+
+    <div class="color" style="background:#2ecc71" onclick="select('#2ecc71')"></div> <!-- vert -->
+    <div class="color" style="background:#f1c40f" onclick="select('#f1c40f')"></div> <!-- jaune -->
+    <div class="color" style="background:#9b59b6" onclick="select('#9b59b6')"></div> <!-- violet -->
+    <div class="color" style="background:#000000" onclick="select('#000000')"></div> <!-- noir -->
+    <div class="color" style="background:#ff9ff3" onclick="select('#ff9ff3')"></div> <!-- rose -->
   </div>
 
   <div class="flag">
@@ -130,11 +137,11 @@ function paint(el) {
 
 function check() {
   const msg = document.getElementById("msg");
-  const good = ["#1e90ff", "#ffffff", "#e63946"];
+  const good = ["#1e90ff", "#ffffff", "#e63946"]; // bleu, blanc, rouge
 
   if (JSON.stringify(filled) === JSON.stringify(good)) {
     msg.style.color = "green";
-    msg.innerText = "Bravo ! Le drapeau est correct.";
+    msg.innerText = "Bravo ! Tu as trouvé les bonnes couleurs.";
     document.getElementById("next").style.display = "inline-block";
   } else {
     msg.style.color = "red";
