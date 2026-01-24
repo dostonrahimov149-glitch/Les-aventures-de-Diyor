@@ -146,11 +146,16 @@ function showImage(){
     ov.style.display="none";
     index++;
     if(index < steps.length){
-      loadWord();
-    } else {
-      document.querySelector(".page").innerHTML =
-        `<h2>🎉 Paris est ouvert !</h2>
-         <button class="btn" onclick="location.href='chapter10.html'">Continuer →</button>`;
+  loadWord();
+} else {
+  document.querySelector(".page").innerHTML =
+    `<h2>🌙 Continue ton voyage à travers Paris…</h2>
+     <p style="font-size:20px;opacity:.9">
+       Chaque rue cache un secret.<br>
+       Chaque pas est une nouvelle aventure.
+     </p>
+     <img src="diyor-night.jpg" style="width:80%;max-width:320px;border-radius:16px;margin:20px 0;">
+     <button class="btn" onclick="location.href='chapter10.html'">Continuer →</button>`;
     }
   },7000);
 }
