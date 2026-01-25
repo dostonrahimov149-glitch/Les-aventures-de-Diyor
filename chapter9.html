@@ -30,14 +30,28 @@ h2{font-size:26px}
   border-radius:12px;display:flex;align-items:center;justify-content:center;
   font-size:22px
 }
-.hidden{display:none}
+
 .overlay{
   position:fixed;inset:0;
   background:rgba(0,0,0,.85);
   display:none;align-items:center;justify-content:center;flex-direction:column;
+  z-index:999;
 }
 .overlay img{
-  max-width:90%;max-height:80%;border-radius:16px;
+  max-width:90%;max-height:70%;border-radius:16px;
+}
+#bravo{
+  font-size:36px;
+  margin-bottom:16px;
+}
+.confetti{
+  position:absolute;
+  width:8px;height:8px;border-radius:50%;
+  animation: fall 1.2s linear forwards;
+}
+@keyframes fall{
+  from{transform:translateY(-20px);opacity:1}
+  to{transform:translateY(300px);opacity:0}
 }
 .btn{
   margin-top:24px;padding:16px 40px;border:none;border-radius:22px;
@@ -47,42 +61,32 @@ h2{font-size:26px}
 </head>
 <body>
 
+<audio id="clickSound" src="sounds/click.mp3"></audio>
+<audio id="successSound" src="sounds/success.mp3"></audio>
+
 <div class="page">
-  <h2 id="title">🔎 Trouve le mot caché</h2>
+  <h2>🔎 Trouve le mot caché</h2>
   <div class="hint" id="hint"></div>
   <div class="slots" id="slots"></div>
   <div class="letters" id="letters"></div>
 </div>
 
 <div class="overlay" id="overlay">
+  <div id="bravo">Bravo !</div>
   <img id="img" src="">
 </div>
 
 <script>
 const steps = [
-  {
-    w:"SEINE",
-    img:"seine.jpg",
-    hint:"🌊 C’est un fleuve. Il traverse le cœur de Paris."
-  },
-  {
-    w:"LOUVRE",
-    img:"louvre.jpg",
-    hint:"🏛️ C’est un grand musée. On y trouve des trésors du monde."
-  },
-  {
-    w:"MONTMARTRE",
-    img:"montmartre.jpg",
-    hint:"🌙 C’est une colline. La nuit, Paris y brille."
-  }
+  { w:"SEINE", img:"seine.jpg", hint:"🌊 C’est un fleuve. Il traverse le cœur de Paris." },
+  { w:"LOUVRE", img:"louvre.jpg", hint:"🏛️ C’est un grand musée. On y trouve des trésors du monde." },
+  { w:"MONTMARTRE", img:"montmartre.jpg", hint:"🌙 C’est une colline. La nuit, Paris y brille." }
 ];
 
 let index = 0;
 let current = "";
 
-function shuffle(arr){
-  return arr.sort(()=>Math.random()-0.5);
-}
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
 
 function loadWord(){
   current = "";
@@ -110,8 +114,9 @@ function loadWord(){
 }
 
 function pick(ch, el){
-  const slots = document.querySelectorAll(".slot");
+  document.getElementById("clickSound").play();
 
+  const slots = document.querySelectorAll(".slot");
   for(let s of slots){
     if(!s.textContent){
       s.textContent = ch;
@@ -123,6 +128,7 @@ function pick(ch, el){
 
   if(current.length === steps[index].w.length){
     if(current === steps[index].w){
+      document.getElementById("successSound").play();
       showImage();
     } else {
       setTimeout(reset, 600);
@@ -136,26 +142,39 @@ function reset(){
   document.querySelectorAll(".letter").forEach(l=>l.style.visibility="visible");
 }
 
+function confetti(){
+  for(let i=0;i<40;i++){
+    const c = document.createElement("div");
+    c.className="confetti";
+    c.style.left = Math.random()*100 + "%";
+    c.style.top = "20%";
+    c.style.background = ["#ff0","#0ff","#f0f","#0f0","#f00"][Math.floor(Math.random()*5)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1200);
+  }
+}
+
 function showImage(){
   const ov = document.getElementById("overlay");
   const img = document.getElementById("img");
   img.src = steps[index].img;
   ov.style.display="flex";
+  confetti();
 
   setTimeout(()=>{
     ov.style.display="none";
     index++;
     if(index < steps.length){
-  loadWord();
-} else {
-  document.querySelector(".page").innerHTML =
-    `<h2>🌙 Continue ton voyage à travers Paris…</h2>
-     <p style="font-size:20px;opacity:.9">
-       Chaque rue cache un secret.<br>
-       Chaque pas est une nouvelle aventure.
-     </p>
-     <img src="diyor-night.jpg" style="width:80%;max-width:320px;border-radius:16px;margin:20px 0;">
-     <button class="btn" onclick="location.href='chapter10.html'">Continuer →</button>`;
+      loadWord();
+    } else {
+      document.querySelector(".page").innerHTML =
+        `<h2>🌙 Continue ton voyage à travers Paris…</h2>
+         <p style="font-size:20px;opacity:.9">
+           Chaque rue cache un secret.<br>
+           Chaque pas est une nouvelle aventure.
+         </p>
+         <img src="diyor-night.jpg" style="width:80%;max-width:320px;border-radius:16px;margin:20px 0;">
+         <button class="btn" onclick="location.href='chapter10.html'">Continuer →</button>`;
     }
   },7000);
 }
