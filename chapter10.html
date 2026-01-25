@@ -89,7 +89,14 @@
 
 <a class="back" href="chapter9.html">← Retour</a>
 
+<audio id="bg" src="bg.mp3" autoplay loop></audio>
+<audio id="correct" src="correct.mp3"></audio>
+<audio id="wrong" src="wrong.mp3"></audio>
+<audio id="applause" src="applause.mp3"></audio>
+
 <div class="page">
+  <h2 style="margin-bottom:16px;">Diyor est maintenant devant Notre-Dame</h2>
+
   <img src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
 
   <div id="quiz">
@@ -136,9 +143,12 @@ function load(){
 
 function check(n){
   const msg = document.getElementById("msg");
+
   if(n === data[i].a){
+    document.getElementById("correct").play();
     msg.style.color = "#6fff9a";
     msg.innerText = "✔️ Bien vu !";
+
     setTimeout(()=>{
       i++;
       if(i < data.length){
@@ -146,9 +156,12 @@ function check(n){
       } else {
         document.getElementById("quiz").style.display="none";
         document.getElementById("next").style.display="inline-block";
+        document.getElementById("applause").play();
       }
     },700);
+
   } else {
+    document.getElementById("wrong").play();
     msg.style.color = "#ff6f6f";
     msg.innerText = "❌ Essaie encore…";
   }
