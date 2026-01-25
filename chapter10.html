@@ -4,32 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chapitre 10 – Notre-Dame</title>
+
 <style>
   body{
-    <a class="back" href="chapter9.html">← Retour</a>
     margin:0;
     font-family:Arial,sans-serif;
     background:linear-gradient(to bottom,#0b1d3a,#000);
     color:white;
     text-align:center;
   }
-  .page{max-width:520px;margin:auto;padding:40px 16px}
+
+  .back {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    color: #6fb3ff;
+    text-decoration: none;
+    font-size: 14px;
+    z-index: 10;
+  }
+
+  .page{
+    max-width:520px;
+    margin:auto;
+    padding:40px 16px;
+  }
+
   .comic{
     width:100%;
     border-radius:16px;
     box-shadow:0 20px 40px rgba(0,0,0,.6);
     margin-bottom:24px;
   }
+
   .question{
     font-size:22px;
     margin:20px 0;
   }
+
   .choices{
     display:flex;
     flex-direction:column;
     gap:12px;
     align-items:center;
   }
+
   .choice{
     width:100%;
     max-width:360px;
@@ -41,8 +60,17 @@
     font-size:18px;
     cursor:pointer;
   }
-  .choice:hover{background:rgba(111,179,255,.25)}
-  #msg{margin-top:16px;font-size:18px;min-height:24px}
+
+  .choice:hover{
+    background:rgba(111,179,255,.25);
+  }
+
+  #msg{
+    margin-top:16px;
+    font-size:18px;
+    min-height:24px;
+  }
+
   .btn{
     margin-top:28px;
     padding:16px 40px;
@@ -55,20 +83,13 @@
     display:none;
   }
 </style>
-  .back {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  color: #6fb3ff;
-  text-decoration: none;
-  font-size: 14px;
-  z-index: 10;
-}
 </head>
+
 <body>
 
+<a class="back" href="chapter9.html">← Retour</a>
+
 <div class="page">
-  <!-- Notre-Dame komiksi -->
   <img src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
 
   <div id="quiz">
@@ -84,41 +105,13 @@
 
 <script>
 const data = [
-  {
-    q:"1. Comment est la ville de Paris ?",
-    c:["Elle est petite.","Elle est ancienne.","Elle est nouvelle."],
-    a:1
-  },
-  {
-    q:"2. Est-ce que la cathédrale est basse ou haute ?",
-    c:["Elle est très haute.","Elle est très basse."],
-    a:0
-  },
-  {
-    q:"3. Comment sont les murs de l’église ?",
-    c:["Ils sont modernes.","Ils sont anciens."],
-    a:1
-  },
-  {
-    q:"4. Quand est-ce que les cloches sonnent ?",
-    c:["Elles sonnent dans la table.","Elles sonnent dans la nuit."],
-    a:1
-  },
-  {
-    q:"5. Quel type de lieu est Notre-Dame ?",
-    c:["C’est un lieu sacré.","C’est un lieu bruyant."],
-    a:0
-  },
-  {
-    q:"6. De quelle couleur sont les vitraux ?",
-    c:["Ils sont noirs.","Ils sont colorés."],
-    a:1
-  },
-  {
-    q:"7. Est-ce que cette église est connue dans le monde ?",
-    c:["Oui, elle est très célèbre.","Non, elle est très jeune."],
-    a:0
-  }
+  { q:"1. Comment est la ville de Paris ?", c:["Elle est petite.","Elle est ancienne.","Elle est nouvelle."], a:1 },
+  { q:"2. Est-ce que la cathédrale est basse ou haute ?", c:["Elle est très haute.","Elle est très basse."], a:0 },
+  { q:"3. Comment sont les murs de l’église ?", c:["Ils sont modernes.","Ils sont anciens."], a:1 },
+  { q:"4. Quand est-ce que les cloches sonnent ?", c:["Elles sonnent dans la table.","Elles sonnent dans la nuit."], a:1 },
+  { q:"5. Quel type de lieu est Notre-Dame ?", c:["C’est un lieu sacré.","C’est un lieu bruyant."], a:0 },
+  { q:"6. De quelle couleur sont les vitraux ?", c:["Ils sont noirs.","Ils sont colorés."], a:1 },
+  { q:"7. Est-ce que cette église est connue dans le monde ?", c:["Oui, elle est très célèbre.","Non, elle est très jeune."], a:0 }
 ];
 
 let i = 0;
@@ -127,9 +120,9 @@ function load(){
   const q = document.getElementById("q");
   const ch = document.getElementById("choices");
   const msg = document.getElementById("msg");
+
   msg.innerText = "";
   ch.innerHTML = "";
-
   q.innerText = data[i].q;
 
   data[i].c.forEach((t,idx)=>{
