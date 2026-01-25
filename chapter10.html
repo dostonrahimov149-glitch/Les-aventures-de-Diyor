@@ -27,7 +27,7 @@
   .page{
     max-width:520px;
     margin:auto;
-    padding:40px 16px;
+    padding:40px 16px 80px;
   }
 
   .comic{
@@ -72,13 +72,13 @@
   }
 
   .info{
-    margin-top:30px;
     font-size:22px;
-    line-height:1.6;
+    line-height:1.5;
+    margin-top:40px;
   }
 
   .btn{
-    margin-top:28px;
+    margin-top:60px;
     padding:16px 40px;
     border:none;
     border-radius:22px;
@@ -101,15 +101,17 @@
 <audio id="applause" src="applause.mp3"></audio>
 
 <div class="page">
-  <h2 style="margin-bottom:16px;">Diyor est maintenant devant Notre-Dame de Paris</h2>
+  <h2>Diyor est maintenant devant Notre-Dame de Paris</h2>
 
-  <img src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
+  <img id="comic" src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
 
   <div id="quiz">
     <div class="question" id="q"></div>
     <div class="choices" id="choices"></div>
     <div id="msg"></div>
   </div>
+
+  <div id="info"></div>
 
   <button class="btn" id="next" onclick="location.href='chapter11.html'">
     Continuer le voyage mystérieux →
@@ -160,23 +162,7 @@ function check(n){
       if(i < data.length){
         load();
       } else {
-        document.getElementById("quiz").style.display = "none";
-        document.getElementById("applause").play();
-
-        // Rasmni yashiramiz
-        document.querySelector(".comic").style.display = "none";
-
-        // Notre-Dame haqida ma’lumot chiqaramiz
-        document.querySelector(".page").insertAdjacentHTML("beforeend", `
-          <div class="info">
-            <p><strong>Notre-Dame de Paris</strong> est une cathédrale célèbre.</p>
-            <p>Elle se trouve au cœur de Paris, sur une île.</p>
-            <p>Elle est ancienne, grande et pleine d’histoire.</p>
-            <p>Des millions de visiteurs viennent la voir chaque année.</p>
-          </div>
-        `);
-
-        document.getElementById("next").style.display = "inline-block";
+        finish();
       }
     },700);
 
@@ -185,6 +171,23 @@ function check(n){
     msg.style.color = "#ff6f6f";
     msg.innerText = "❌ Essaie encore…";
   }
+}
+
+function finish(){
+  document.getElementById("quiz").style.display="none";
+  document.getElementById("comic").style.display="none";
+  document.getElementById("applause").play();
+
+  document.getElementById("info").innerHTML = `
+    <div class="info">
+      <p><strong>Notre-Dame de Paris</strong> est une cathédrale célèbre.</p>
+      <p>Elle se trouve au cœur de Paris, sur une île.</p>
+      <p>Elle est ancienne, grande et pleine d’histoire.</p>
+      <p>Des millions de visiteurs viennent la voir chaque année.</p>
+    </div>
+  `;
+
+  document.getElementById("next").style.display="inline-block";
 }
 
 load();
