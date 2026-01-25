@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 10 – Notre-Dame</title>
+<style>
+  body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(to bottom,#0b1d3a,#000);
+    color:white;
+    text-align:center;
+  }
+  .page{max-width:520px;margin:auto;padding:40px 16px}
+  .comic{
+    width:100%;
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(0,0,0,.6);
+    margin-bottom:24px;
+  }
+  .question{
+    font-size:22px;
+    margin:20px 0;
+  }
+  .choices{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+  }
+  .choice{
+    width:100%;
+    max-width:360px;
+    padding:14px 18px;
+    border-radius:16px;
+    border:2px solid #6fb3ff;
+    background:rgba(255,255,255,.05);
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+  }
+  .choice:hover{background:rgba(111,179,255,.25)}
+  #msg{margin-top:16px;font-size:18px;min-height:24px}
+  .btn{
+    margin-top:28px;
+    padding:16px 40px;
+    border:none;
+    border-radius:22px;
+    background:#2b7cff;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    display:none;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <!-- Notre-Dame komiksi -->
+  <img src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
+
+  <div id="quiz">
+    <div class="question" id="q"></div>
+    <div class="choices" id="choices"></div>
+    <div id="msg"></div>
+  </div>
+
+  <button class="btn" id="next" onclick="location.href='chapter11.html'">
+    Continuer le voyage mystérieux →
+  </button>
+</div>
+
+<script>
+const data = [
+  {
+    q:"1. Comment est la ville de Paris ?",
+    c:["Elle est petite.","Elle est ancienne.","Elle est nouvelle."],
+    a:1
+  },
+  {
+    q:"2. Est-ce que la cathédrale est basse ou haute ?",
+    c:["Elle est très haute.","Elle est très basse."],
+    a:0
+  },
+  {
+    q:"3. Comment sont les murs de l’église ?",
+    c:["Ils sont modernes.","Ils sont anciens."],
+    a:1
+  },
+  {
+    q:"4. Quand est-ce que les cloches sonnent ?",
+    c:["Elles sonnent dans la table.","Elles sonnent dans la nuit."],
+    a:1
+  },
+  {
+    q:"5. Quel type de lieu est Notre-Dame ?",
+    c:["C’est un lieu sacré.","C’est un lieu bruyant."],
+    a:0
+  },
+  {
+    q:"6. De quelle couleur sont les vitraux ?",
+    c:["Ils sont noirs.","Ils sont colorés."],
+    a:1
+  },
+  {
+    q:"7. Est-ce que cette église est connue dans le monde ?",
+    c:["Oui, elle est très célèbre.","Non, elle est très jeune."],
+    a:0
+  }
+];
+
+let i = 0;
+
+function load(){
+  const q = document.getElementById("q");
+  const ch = document.getElementById("choices");
+  const msg = document.getElementById("msg");
+  msg.innerText = "";
+  ch.innerHTML = "";
+
+  q.innerText = data[i].q;
+
+  data[i].c.forEach((t,idx)=>{
+    const b = document.createElement("div");
+    b.className = "choice";
+    b.innerText = t;
+    b.onclick = ()=>check(idx);
+    ch.appendChild(b);
+  });
+}
+
+function check(n){
+  const msg = document.getElementById("msg");
+  if(n === data[i].a){
+    msg.style.color = "#6fff9a";
+    msg.innerText = "✔️ Bien vu !";
+    setTimeout(()=>{
+      i++;
+      if(i < data.length){
+        load();
+      } else {
+        document.getElementById("quiz").style.display="none";
+        document.getElementById("next").style.display="inline-block";
+      }
+    },700);
+  } else {
+    msg.style.color = "#ff6f6f";
+    msg.innerText = "❌ Essaie encore…";
+  }
+}
+
+load();
+</script>
+
+</body>
+</html>
