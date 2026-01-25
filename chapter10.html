@@ -71,6 +71,12 @@
     min-height:24px;
   }
 
+  .info{
+    margin-top:30px;
+    font-size:22px;
+    line-height:1.6;
+  }
+
   .btn{
     margin-top:28px;
     padding:16px 40px;
@@ -95,7 +101,7 @@
 <audio id="applause" src="applause.mp3"></audio>
 
 <div class="page">
-  <h2 style="margin-bottom:16px;">Diyor est maintenant devant Notre-Dame de Paris </h2>
+  <h2 style="margin-bottom:16px;">Diyor est maintenant devant Notre-Dame de Paris</h2>
 
   <img src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
 
@@ -154,9 +160,23 @@ function check(n){
       if(i < data.length){
         load();
       } else {
-        document.getElementById("quiz").style.display="none";
-        document.getElementById("next").style.display="inline-block";
+        document.getElementById("quiz").style.display = "none";
         document.getElementById("applause").play();
+
+        // Rasmni yashiramiz
+        document.querySelector(".comic").style.display = "none";
+
+        // Notre-Dame haqida ma’lumot chiqaramiz
+        document.querySelector(".page").insertAdjacentHTML("beforeend", `
+          <div class="info">
+            <p><strong>Notre-Dame de Paris</strong> est une cathédrale célèbre.</p>
+            <p>Elle se trouve au cœur de Paris, sur une île.</p>
+            <p>Elle est ancienne, grande et pleine d’histoire.</p>
+            <p>Des millions de visiteurs viennent la voir chaque année.</p>
+          </div>
+        `);
+
+        document.getElementById("next").style.display = "inline-block";
       }
     },700);
 
