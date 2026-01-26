@@ -22,16 +22,24 @@ h2{margin-bottom:10px}
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:10px;
   margin:20px 0;
 }
 .card{
-  border-radius:12px;
+  border-radius:10px;
   overflow:hidden;
   cursor:pointer;
   border:2px solid #6fb3ff;
+  max-width:90px;     /* kichraytirildi */
+  margin:auto;
+  transition:transform .2s, box-shadow .2s;
+}
+.card.correct{
+  box-shadow:0 0 20px #6fff9a;
+  border-color:#6fff9a;
 }
 .card img{width:100%;display:block}
+
 .names{
   display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:20px;
 }
@@ -43,12 +51,18 @@ h2{margin-bottom:10px}
   cursor:pointer;
 }
 #msg{margin-top:16px;min-height:24px}
+
 .overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.85);
-  display:none;align-items:center;justify-content:center;flex-direction:column;
+  position:fixed;inset:0;background:rgba(0,0,0,.92);
+  display:none;align-items:center;justify-content:center;
   z-index:999;
 }
-.overlay img{max-width:90%;max-height:80%;border-radius:16px}
+.overlay img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
 .btn{
   margin-top:40px;padding:16px 40px;border:none;border-radius:22px;
   background:#2b7cff;color:white;font-size:20px;font-weight:bold;display:none;
@@ -64,9 +78,7 @@ h2{margin-bottom:10px}
   <p>Associe l’œuvre à son nom.</p>
 
   <div class="grid" id="grid"></div>
-
   <div class="names" id="names"></div>
-
   <div id="msg"></div>
 
   <button class="btn" id="next" onclick="location.href='chapter13.html'">
@@ -88,6 +100,7 @@ const works = [
 ];
 
 let selected = null;
+let selectedCard = null;
 let done = new Set();
 
 function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
@@ -95,6 +108,7 @@ function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
 function init(){
   const g = document.getElementById("grid");
   const n = document.getElementById("names");
+
   shuffle([...works]).forEach(w=>{
     const c = document.createElement("div");
     c.className="card";
@@ -112,11 +126,15 @@ function init(){
   });
 }
 
-function selectWork(w, el){
+function selectWork(w, card){
   selected = w;
-  document.getElementById("big").src = w.img;
-  document.getElementById("overlay").style.display="flex";
-  setTimeout(()=>document.getElementById("overlay").style.display="none",800);
+  selectedCard = card;
+  const ov = document.getElementById("overlay");
+  const img = document.getElementById("big");
+  img.src = w.img;
+  ov.style.display="flex";
+
+  setTimeout(()=> ov.style.display="none", 4000);
 }
 
 function pickName(w, el){
@@ -129,6 +147,10 @@ function pickName(w, el){
     msg.innerText="Une porte s’ouvre dans le musée…";
     done.add(w.id);
     el.style.opacity=.4;
+
+    if(selectedCard){
+      selectedCard.classList.add("correct");
+    }
 
     if(done.size === works.length){
       msg.innerText="✨ Le labyrinthe du Louvre est ouvert.";
