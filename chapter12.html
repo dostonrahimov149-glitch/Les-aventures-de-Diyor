@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 12 – Le labyrinthe du Louvre</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(to bottom,#0b1d3a,#000);
+  color:white;
+  text-align:center;
+}
+.back{
+  position:fixed;top:12px;left:12px;
+  color:#6fb3ff;text-decoration:none;font-size:14px;
+}
+.page{max-width:520px;margin:auto;padding:40px 16px 80px;}
+h2{margin-bottom:10px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:20px 0;
+}
+.card{
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+  border:2px solid #6fb3ff;
+}
+.card img{width:100%;display:block}
+.names{
+  display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:20px;
+}
+.name{
+  width:100%;max-width:360px;
+  padding:12px 16px;border-radius:14px;
+  border:2px solid #6fb3ff;
+  background:rgba(255,255,255,.05);
+  cursor:pointer;
+}
+#msg{margin-top:16px;min-height:24px}
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+  z-index:999;
+}
+.overlay img{max-width:90%;max-height:80%;border-radius:16px}
+.btn{
+  margin-top:40px;padding:16px 40px;border:none;border-radius:22px;
+  background:#2b7cff;color:white;font-size:20px;font-weight:bold;display:none;
+}
+</style>
+</head>
+
+<body>
+<a class="back" href="chapter11.html">← Retour</a>
+
+<div class="page">
+  <h2>🗝️ Le labyrinthe du Louvre</h2>
+  <p>Associe l’œuvre à son nom.</p>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="names" id="names"></div>
+
+  <div id="msg"></div>
+
+  <button class="btn" id="next" onclick="location.href='chapter13.html'">
+    Continuer →
+  </button>
+</div>
+
+<div class="overlay" id="overlay">
+  <img id="big" src="">
+</div>
+
+<script>
+const works = [
+  {id:"joconde", img:"joconde.jpg", name:"La Joconde"},
+  {id:"venus", img:"venus.jpg", name:"La Vénus de Milo"},
+  {id:"victoire", img:"victoire.jpg", name:"La Victoire de Samothrace"},
+  {id:"liberte", img:"liberte.jpg", name:"La Liberté guidant le peuple"},
+  {id:"hammurabi", img:"hammurabi.jpg", name:"Le Code de Hammurabi"}
+];
+
+let selected = null;
+let done = new Set();
+
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+function init(){
+  const g = document.getElementById("grid");
+  const n = document.getElementById("names");
+  shuffle([...works]).forEach(w=>{
+    const c = document.createElement("div");
+    c.className="card";
+    c.innerHTML=`<img src="${w.img}">`;
+    c.onclick=()=>selectWork(w,c);
+    g.appendChild(c);
+  });
+
+  shuffle([...works]).forEach(w=>{
+    const d = document.createElement("div");
+    d.className="name";
+    d.innerText = w.name;
+    d.onclick=()=>pickName(w,d);
+    n.appendChild(d);
+  });
+}
+
+function selectWork(w, el){
+  selected = w;
+  document.getElementById("big").src = w.img;
+  document.getElementById("overlay").style.display="flex";
+  setTimeout(()=>document.getElementById("overlay").style.display="none",800);
+}
+
+function pickName(w, el){
+  if(!selected || done.has(selected.id)) return;
+
+  const msg = document.getElementById("msg");
+
+  if(w.id === selected.id){
+    msg.style.color="#6fff9a";
+    msg.innerText="Une porte s’ouvre dans le musée…";
+    done.add(w.id);
+    el.style.opacity=.4;
+
+    if(done.size === works.length){
+      msg.innerText="✨ Le labyrinthe du Louvre est ouvert.";
+      document.getElementById("next").style.display="inline-block";
+    }
+  } else {
+    msg.style.color="#ff6f6f";
+    msg.innerText="Ce n’est pas la bonne œuvre…";
+  }
+}
+
+init();
+</script>
+</body>
+</html>
