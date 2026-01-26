@@ -30,7 +30,7 @@ h2{margin-bottom:10px}
   overflow:hidden;
   cursor:pointer;
   border:2px solid #6fb3ff;
-  max-width:90px;     /* kichraytirildi */
+  max-width:90px;
   margin:auto;
   transition:transform .2s, box-shadow .2s;
 }
@@ -72,6 +72,10 @@ h2{margin-bottom:10px}
 
 <body>
 <a class="back" href="chapter11.html">← Retour</a>
+
+<!-- Musiqa -->
+<audio id="bg" src="piano.mp3" autoplay loop></audio>
+<audio id="applause" src="applause.mp3"></audio>
 
 <div class="page">
   <h2>🗝️ Le labyrinthe du Louvre</h2>
@@ -154,6 +158,7 @@ function pickName(w, el){
 
     if(done.size === works.length){
       msg.innerText="✨ Le labyrinthe du Louvre est ouvert.";
+      document.getElementById("applause").play();
       document.getElementById("next").style.display="inline-block";
     }
   } else {
