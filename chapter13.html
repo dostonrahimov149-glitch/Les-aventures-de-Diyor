@@ -67,37 +67,36 @@
 
 <a class="back" href="chapter12.html">← Retour</a>
 
-<!-- Ovozlar -->
-<audio id="whisper" src="whisper.mp3"autoplay loop></audio>
+<audio id="whisper" src="whisper.mp3"></audio>
 
 <div class="page">
   <h2>📩 Message inconnu</h2>
 
   <div class="video-box">
-    <video id="scene" src="message-diyor.mp4" autoplay muted loop playsinline></video>
+    <video id="scene" src="message-diyor.mp4" autoplay muted playsinline></video>
   </div>
 
   <button class="btn" id="next" onclick="location.href='chapter14.html'">
-    Continuer →  
+    Continuer →
   </button>
 </div>
 
 <script>
   const v = document.getElementById("scene");
-  v.playbackRate = 0.5; // videoni sekinlashtiradi
+  const whisper = document.getElementById("whisper");
 
-  const bg = document.getElementById("mystery");
-  bg.volume = 0.4; // fon musiqani yumshatadi
+  // videoni juda sekinlashtiramiz
+  v.playbackRate = 0.35; // taxminan 13–15 soniya bo‘ladi
 
-  // 2 soniyadan keyin pichir ovozi
+  // 2 soniyadan keyin pichir ovozi (agar brauzer ruxsat bersa)
   setTimeout(()=>{
-    document.getElementById("whisper").play();
+    whisper.play().catch(()=>{});
   }, 2000);
 
-  // 16 soniyadan keyin tugma chiqadi
-  setTimeout(()=>{
+  // video tugaganda tugma chiqadi
+  v.addEventListener("ended", ()=>{
     document.getElementById("next").style.display = "inline-block";
-  }, 16000);
+  });
 </script>
 
 </body>
