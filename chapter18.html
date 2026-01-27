@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 18 – Au revoir, Paris</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Cinzel","Times New Roman",serif;
+  background:black;
+  color:white;
+}
+.back{
+  position:fixed;
+  top:12px;left:12px;
+  color:#6fb3ff;
+  text-decoration:none;
+  font-size:14px;
+  z-index:10;
+}
+.scene{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:black;
+}
+.frame{
+  max-width:900px;
+  width:100%;
+  text-align:center;
+}
+.frame img{
+  width:100%;
+  height:auto;
+  border-radius:18px;
+  box-shadow:0 0 40px rgba(255,200,120,.6);
+}
+.caption{
+  margin-top:16px;
+  font-size:18px;
+  color:#ffd08a;
+  text-shadow:0 0 10px rgba(255,200,120,.8);
+}
+</style>
+</head>
+
+<body>
+<a class="back" href="chapter17.html">← Retour</a>
+
+<audio id="bye" src="au-revoir.mp3" loop></audio>
+
+<div class="scene" onclick="startMusic()">
+  <div class="frame">
+    <img src="final-comic-diyor-paris.png" alt="Diyor – Fin de l’aventure à Paris">
+    <div class="caption">
+      Merci d’avoir suivi Diyor.<br>
+      Ce n’est que le début…
+    </div>
+  </div>
+</div>
+
+<script>
+let started = false;
+function startMusic(){
+  if(!started){
+    const a = document.getElementById("bye");
+    a.volume = 0.4;
+    a.play().catch(()=>{});
+    started = true;
+  }
+}
+</script>
+
+</body>
+</html>
