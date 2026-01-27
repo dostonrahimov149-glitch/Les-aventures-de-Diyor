@@ -64,9 +64,7 @@ h2{
   font-size:20px;
   cursor:pointer;
 }
-.choice:hover{
-  background:rgba(255,200,120,.2);
-}
+.choice:hover{ background:rgba(255,200,120,.2); }
 #msg{
   margin-top:14px;
   min-height:26px;
@@ -96,11 +94,13 @@ h2{
 <body>
 <a class="back" href="chapter15.html">← Retour</a>
 
+<!-- Audios -->
 <audio id="a1" src="silence.mp3"></audio>
 <audio id="a2" src="ombre.mp3"></audio>
 <audio id="a3" src="secret.mp3"></audio>
 <audio id="ok" src="correct1.mp3"></audio>
 <audio id="bad" src="wrong-answer.mp3"></audio>
+<audio id="reveal" src="cinematic-intro.mp3"></audio>
 
 <div class="scene" id="scene">
   <div class="panel" id="panel">
@@ -169,6 +169,8 @@ function check(w){
       if(i < tasks.length){
         load();
       } else {
+        // Oxirgi ochilish
+        document.getElementById("reveal").play();
         sc.style.background = 'url("Diyor-wall-catacombe-2.jpg") center/cover no-repeat';
 
         const panel = document.getElementById("panel");
