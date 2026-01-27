@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 16 – Écoute dans l’ombre</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Cinzel","Times New Roman",serif;
+  background:black;
+  color:white;
+  text-align:center;
+}
+
+.back{
+  position:fixed;top:12px;left:12px;
+  color:#6fb3ff;text-decoration:none;font-size:14px;z-index:10;
+}
+
+.scene{
+  min-height:100vh;
+  background:url("Diyor-wall-catacombe.jpeg") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:40px 16px;
+}
+
+h2{
+  font-size:28px;
+  text-shadow:0 0 14px rgba(255,200,120,.9);
+}
+
+.play{
+  margin:20px 0;
+  padding:14px 26px;
+  border-radius:20px;
+  border:2px solid #ffd08a;
+  background:rgba(255,180,80,.15);
+  color:#fff6e0;
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 0 16px rgba(255,180,80,.8);
+}
+
+.choices{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:10px;
+}
+
+.choice{
+  padding:14px 20px;
+  border-radius:16px;
+  border:2px solid rgba(255,220,150,.8);
+  background:rgba(0,0,0,.45);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.choice:hover{
+  background:rgba(255,200,120,.2);
+}
+
+#msg{
+  margin-top:18px;
+  font-size:20px;
+  min-height:28px;
+  text-shadow:0 0 10px rgba(255,200,120,.9);
+}
+
+.flash{
+  animation:flash 1s;
+}
+
+@keyframes flash{
+  0%{box-shadow:0 0 0 rgba(255,220,120,0)}
+  50%{box-shadow:0 0 80px rgba(255,220,120,.9)}
+  100%{box-shadow:0 0 0 rgba(255,220,120,0)}
+}
+
+.btn{
+  margin-top:30px;
+  padding:16px 40px;
+  border:none;
+  border-radius:22px;
+  background:#2b7cff;
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+<a class="back" href="chapter15.html">← Retour</a>
+
+<!-- Audios -->
+<audio id="a1" src="silence.mp3"></audio>
+<audio id="a2" src="ombre.mp3"></audio>
+<audio id="a3" src="secret.mp3"></audio>
+
+<div class="scene" id="scene">
+  <h2 id="title">🎧 Écoute…</h2>
+  <button class="play" id="playBtn">🔊 Écouter</button>
+
+  <div class="choices" id="choices"></div>
+  <div id="msg"></div>
+
+  <button class="btn" id="next" onclick="location.href='chapter17.html'">
+    Continuer →
+  </button>
+</div>
+
+<script>
+const tasks = [
+  {
+    audio:"a1",
+    words:["silence","soleil","secret"],
+    good:"silence",
+    bad:"Non… écoute mieux…",
+    goodMsg:"Le mur brille d’or…"
+  },
+  {
+    audio:"a2",
+    words:["arbre","ombre","homme"],
+    good:"ombre",
+    bad:"Les ombres te regardent…",
+    goodMsg:"Une ligne de lumière apparaît…"
+  },
+  {
+    audio:"a3",
+    words:["sacré","secret","serpent"],
+    good:"secret",
+    bad:"Ce n’est pas le bon mot…",
+    goodMsg:"Le mur se fissure…"
+  }
+];
+
+let i = 0;
+
+function load(){
+  const t = tasks[i];
+  document.getElementById("msg").innerText = "";
+  const c = document.getElementById("choices");
+  c.innerHTML = "";
+
+  t.words.forEach(w=>{
+    const d = document.createElement("div");
+    d.className="choice";
+    d.innerText = w;
+    d.onclick = ()=>check(w);
+    c.appendChild(d);
+  });
+
+  document.getElementById("playBtn").onclick = ()=>{
+    document.getElementById(t.audio).play();
+  };
+}
+
+function check(w){
+  const t = tasks[i];
+  const sc = document.getElementById("scene");
+  if(w === t.good){
+    document.getElementById("msg").innerText = t.goodMsg;
+    sc.classList.add("flash");
+    setTimeout(()=>{
+      sc.classList.remove("flash");
+      i++;
+      if(i < tasks.length){
+        load();
+      } else {
+        document.getElementById("choices").style.display="none";
+        document.getElementById("playBtn").style.display="none";
+        document.getElementById("title").innerText = "✨ Le passage secret s’ouvre…";
+        document.getElementById("next").style.display="inline-block";
+      }
+    },900);
+  } else {
+    document.getElementById("msg").innerText = t.bad;
+  }
+}
+
+load();
+</script>
+</body>
+</html>
