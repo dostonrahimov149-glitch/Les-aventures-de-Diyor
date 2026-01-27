@@ -24,7 +24,7 @@ body{
   background:url("Diyor-wall-catacombe.jpeg") center/cover no-repeat;
   display:flex;
   flex-direction:column;
-  justify-content:center;
+  justify-content:flex-start;
   align-items:center;
   padding:40px 16px;
 }
@@ -34,8 +34,16 @@ h2{
   text-shadow:0 0 14px rgba(255,200,120,.9);
 }
 
+.instruction{
+  margin:12px 0 18px;
+  font-size:20px;
+  max-width:420px;
+  text-shadow:0 0 12px rgba(255,210,140,.9);
+  color:#fff6e0;
+}
+
 .play{
-  margin:20px 0;
+  margin:18px 0;
   padding:14px 26px;
   border-radius:20px;
   border:2px solid #ffd08a;
@@ -107,7 +115,13 @@ h2{
 <audio id="a3" src="secret.mp3"></audio>
 
 <div class="scene" id="scene">
-  <h2 id="title">🎧 Écoute…</h2>
+  <h2 id="title">🎧 Écoute dans l’ombre</h2>
+
+  <div class="instruction">
+    Écoute attentivement le mot chuchoté par le mur.<br>
+    Puis choisis le bon mot pour ouvrir le passage.
+  </div>
+
   <button class="play" id="playBtn">🔊 Écouter</button>
 
   <div class="choices" id="choices"></div>
@@ -160,6 +174,7 @@ function load(){
   });
 
   document.getElementById("playBtn").onclick = ()=>{
+    document.getElementById(t.audio).currentTime = 0;
     document.getElementById(t.audio).play();
   };
 }
@@ -167,9 +182,11 @@ function load(){
 function check(w){
   const t = tasks[i];
   const sc = document.getElementById("scene");
+
   if(w === t.good){
     document.getElementById("msg").innerText = t.goodMsg;
     sc.classList.add("flash");
+
     setTimeout(()=>{
       sc.classList.remove("flash");
       i++;
@@ -182,6 +199,7 @@ function check(w){
         document.getElementById("next").style.display="inline-block";
       }
     },900);
+
   } else {
     document.getElementById("msg").innerText = t.bad;
   }
