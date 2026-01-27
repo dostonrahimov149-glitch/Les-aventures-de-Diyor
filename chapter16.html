@@ -12,12 +12,10 @@ body{
   background:black;
   color:white;
 }
-
 .back{
   position:fixed;top:12px;left:12px;
   color:#6fb3ff;text-decoration:none;font-size:14px;z-index:10;
 }
-
 .scene{
   min-height:100vh;
   background:url("Diyor-wall-catacombe.jpeg") center/cover no-repeat;
@@ -25,26 +23,21 @@ body{
   align-items:center;
   padding:40px 16px;
 }
-
-/* Kontentni o‘ng tomonga suramiz */
 .panel{
   margin-left:auto;
   margin-right:6%;
   max-width:360px;
   text-align:center;
 }
-
 h2{
   font-size:28px;
   text-shadow:0 0 14px rgba(255,200,120,.9);
 }
-
 .instruction{
   margin:10px 0 20px;
   font-size:18px;
   text-shadow:0 0 10px rgba(255,220,150,.8);
 }
-
 .play{
   margin:16px 0;
   padding:14px 26px;
@@ -56,14 +49,12 @@ h2{
   cursor:pointer;
   box-shadow:0 0 16px rgba(255,180,80,.8);
 }
-
 .choices{
   display:flex;
   flex-direction:column;
   gap:12px;
   margin-top:10px;
 }
-
 .choice{
   padding:14px 20px;
   border-radius:16px;
@@ -73,51 +64,31 @@ h2{
   font-size:20px;
   cursor:pointer;
 }
-
 .choice:hover{
   background:rgba(255,200,120,.2);
 }
-
 #msg{
   margin-top:14px;
   min-height:26px;
   font-size:18px;
   text-shadow:0 0 10px rgba(255,200,120,.9);
 }
-
-.flash{
-  animation:flash 1s;
-}
+.flash{ animation:flash 1s; }
 @keyframes flash{
   0%{box-shadow:0 0 0 rgba(255,220,120,0)}
   50%{box-shadow:0 0 80px rgba(255,220,120,.9)}
   100%{box-shadow:0 0 0 rgba(255,220,120,0)}
 }
-
-/* Belgilar */
 .mark{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.5);
-  z-index:20;
+  position:fixed;inset:0;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(0,0,0,.5);z-index:20;
 }
-.mark span{
-  font-size:120px;
-}
-
+.mark span{font-size:120px;}
 .btn{
-  margin-top:24px;
-  padding:16px 40px;
-  border:none;
-  border-radius:22px;
-  background:#2b7cff;
-  color:white;
-  font-size:20px;
-  font-weight:bold;
-  display:none;
+  margin-top:24px;padding:16px 40px;border:none;
+  border-radius:22px;background:#2b7cff;color:white;
+  font-size:20px;font-weight:bold;display:none;
 }
 </style>
 </head>
@@ -125,7 +96,6 @@ h2{
 <body>
 <a class="back" href="chapter15.html">← Retour</a>
 
-<!-- Audios -->
 <audio id="a1" src="silence.mp3"></audio>
 <audio id="a2" src="ombre.mp3"></audio>
 <audio id="a3" src="secret.mp3"></audio>
@@ -133,18 +103,15 @@ h2{
 <audio id="bad" src="wrong-answer.mp3"></audio>
 
 <div class="scene" id="scene">
-  <div class="panel">
+  <div class="panel" id="panel">
     <h2 id="title">🎧 Écoute dans l’ombre</h2>
     <div class="instruction">
       Écoute attentivement le mot chuchoté par le mur.<br>
       Puis choisis le bon mot pour ouvrir le passage.
     </div>
-
     <button class="play" id="playBtn">🔊 Écouter</button>
-
     <div class="choices" id="choices"></div>
     <div id="msg"></div>
-
     <button class="btn" id="next" onclick="location.href='chapter17.html'">
       Continuer →
     </button>
@@ -156,27 +123,9 @@ h2{
 
 <script>
 const tasks = [
-  {
-    audio:"a1",
-    words:["silence","soleil","secret"],
-    good:"silence",
-    bad:"Non… écoute mieux…",
-    goodMsg:"Le mur brille d’or…"
-  },
-  {
-    audio:"a2",
-    words:["arbre","ombre","homme"],
-    good:"ombre",
-    bad:"Les ombres te regardent…",
-    goodMsg:"Une ligne de lumière apparaît…"
-  },
-  {
-    audio:"a3",
-    words:["sacré","secret","serpent"],
-    good:"secret",
-    bad:"Ce n’est pas le bon mot…",
-    goodMsg:"Le mur se fissure…"
-  }
+  { audio:"a1", words:["silence","soleil","secret"], good:"silence", bad:"Non… écoute mieux…", goodMsg:"Le mur brille d’or…" },
+  { audio:"a2", words:["arbre","ombre","homme"], good:"ombre", bad:"Les ombres te regardent…", goodMsg:"Une ligne de lumière apparaît…" },
+  { audio:"a3", words:["sacré","secret","serpent"], good:"secret", bad:"Ce n’est pas le bon mot…", goodMsg:"Le mur se fissure…" }
 ];
 
 let i = 0;
@@ -186,7 +135,6 @@ function load(){
   document.getElementById("msg").innerText = "";
   const c = document.getElementById("choices");
   c.innerHTML = "";
-
   t.words.forEach(w=>{
     const d = document.createElement("div");
     d.className="choice";
@@ -194,7 +142,6 @@ function load(){
     d.onclick = ()=>check(w);
     c.appendChild(d);
   });
-
   document.getElementById("playBtn").onclick = ()=>{
     document.getElementById(t.audio).play();
   };
@@ -222,11 +169,13 @@ function check(w){
       if(i < tasks.length){
         load();
       } else {
-        // 2-devor foniga o‘tamiz
-        sc.style.background = 'url("Diyor-wall-catacombe-2.jpeg") center/cover no-repeat';
-        document.getElementById("choices").style.display="none";
-        document.getElementById("playBtn").style.display="none";
-        document.getElementById("title").innerText = "✨ Un nouveau mur apparaît…";
+        sc.style.background = 'url("Diyor-wall-catacombe-2.jpg") center/cover no-repeat';
+
+        const panel = document.getElementById("panel");
+        panel.querySelectorAll("*").forEach(el=>{
+          if(el.id !== "next") el.style.display="none";
+        });
+
         document.getElementById("next").style.display="inline-block";
       }
     },900);
