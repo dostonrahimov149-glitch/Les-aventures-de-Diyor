@@ -90,12 +90,7 @@
     border-color:transparent #7b5cff transparent transparent;
   }
 
-  .right::after{
-    right:-22px;
-    border-width:12px 0 12px 22px;
-    border-color:transparent transparent transparent #7b5cff;
-  }
-
+  .right::after,
   .straight::after{
     right:-22px;
     border-width:12px 0 12px 22px;
@@ -126,14 +121,20 @@
 
 <script>
   const v = document.getElementById("scene");
+  const choices = document.getElementById("choices");
 
   // 5 soniyalik videoni ~13 soniyaga cho‘zish
   v.playbackRate = 0.38;
 
-  // Video tugagach yo‘llar chiqadi
-  v.addEventListener("ended", ()=>{
-    document.getElementById("choices").style.display = "flex";
-  });
+  function showChoices(){
+    choices.style.display = "flex";
+  }
+
+  // Video tugaganda
+  v.addEventListener("ended", showChoices);
+
+  // Zaxira: 13 soniyadan keyin baribir chiqadi
+  setTimeout(showChoices, 13000);
 
   function go(){
     location.href = "chapter15.html";
