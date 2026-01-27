@@ -33,8 +33,8 @@ body{
   text-align:center;
   padding:14px 18px;
   color:#f3e3b3;
-  font-size:17px;   /* kattaroq */
-  line-height:1.6;  /* o‘qilishi qulayroq */
+  font-size:17px;
+  line-height:1.6;
 }
 .map-box{
   position:relative;
@@ -98,7 +98,7 @@ body{
   background:#2b7cff;
   color:white;
   font-size:16px;
-  opacity:0.4;
+  display:none; /* boshida ko‘rinmaydi */
 }
 </style>
 </head>
@@ -178,7 +178,8 @@ function check(){
       document.getElementById("lock2").style.display = "none";
       document.getElementById("lock3").style.display = "none";
 
-      document.getElementById("nextBtn").style.opacity = "1";
+      // Continuer tugmasini chiqaramiz
+      document.getElementById("nextBtn").style.display = "block";
     }
   } else {
     document.getElementById("feedback").innerText = "Essaye encore…";
