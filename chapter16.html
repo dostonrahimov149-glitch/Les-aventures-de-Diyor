@@ -11,7 +11,6 @@ body{
   font-family:"Cinzel","Times New Roman",serif;
   background:black;
   color:white;
-  text-align:center;
 }
 
 .back{
@@ -23,10 +22,16 @@ body{
   min-height:100vh;
   background:url("Diyor-wall-catacombe.jpeg") center/cover no-repeat;
   display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
   align-items:center;
   padding:40px 16px;
+}
+
+/* Kontentni o‘ng tomonga suramiz */
+.panel{
+  margin-left:auto;
+  margin-right:6%;
+  max-width:360px;
+  text-align:center;
 }
 
 h2{
@@ -35,15 +40,13 @@ h2{
 }
 
 .instruction{
-  margin:12px 0 18px;
-  font-size:20px;
-  max-width:420px;
-  text-shadow:0 0 12px rgba(255,210,140,.9);
-  color:#fff6e0;
+  margin:10px 0 20px;
+  font-size:18px;
+  text-shadow:0 0 10px rgba(255,220,150,.8);
 }
 
 .play{
-  margin:18px 0;
+  margin:16px 0;
   padding:14px 26px;
   border-radius:20px;
   border:2px solid #ffd08a;
@@ -57,7 +60,7 @@ h2{
 .choices{
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:12px;
   margin-top:10px;
 }
 
@@ -76,24 +79,37 @@ h2{
 }
 
 #msg{
-  margin-top:18px;
-  font-size:20px;
-  min-height:28px;
+  margin-top:14px;
+  min-height:26px;
+  font-size:18px;
   text-shadow:0 0 10px rgba(255,200,120,.9);
 }
 
 .flash{
   animation:flash 1s;
 }
-
 @keyframes flash{
   0%{box-shadow:0 0 0 rgba(255,220,120,0)}
   50%{box-shadow:0 0 80px rgba(255,220,120,.9)}
   100%{box-shadow:0 0 0 rgba(255,220,120,0)}
 }
 
+/* Belgilar */
+.mark{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.5);
+  z-index:20;
+}
+.mark span{
+  font-size:120px;
+}
+
 .btn{
-  margin-top:30px;
+  margin-top:24px;
   padding:16px 40px;
   border:none;
   border-radius:22px;
@@ -113,24 +129,30 @@ h2{
 <audio id="a1" src="silence.mp3"></audio>
 <audio id="a2" src="ombre.mp3"></audio>
 <audio id="a3" src="secret.mp3"></audio>
+<audio id="ok" src="correct1.mp3"></audio>
+<audio id="bad" src="wrong-answer.mp3"></audio>
 
 <div class="scene" id="scene">
-  <h2 id="title">🎧 Écoute dans l’ombre</h2>
+  <div class="panel">
+    <h2 id="title">🎧 Écoute dans l’ombre</h2>
+    <div class="instruction">
+      Écoute attentivement le mot chuchoté par le mur.<br>
+      Puis choisis le bon mot pour ouvrir le passage.
+    </div>
 
-  <div class="instruction">
-    Écoute attentivement le mot chuchoté par le mur.<br>
-    Puis choisis le bon mot pour ouvrir le passage.
+    <button class="play" id="playBtn">🔊 Écouter</button>
+
+    <div class="choices" id="choices"></div>
+    <div id="msg"></div>
+
+    <button class="btn" id="next" onclick="location.href='chapter17.html'">
+      Continuer →
+    </button>
   </div>
-
-  <button class="play" id="playBtn">🔊 Écouter</button>
-
-  <div class="choices" id="choices"></div>
-  <div id="msg"></div>
-
-  <button class="btn" id="next" onclick="location.href='chapter17.html'">
-    Continuer →
-  </button>
 </div>
+
+<div class="mark" id="good"><span style="color:#6fff9a;">✔️</span></div>
+<div class="mark" id="badMark"><span style="color:#ff6f6f;">❌</span></div>
 
 <script>
 const tasks = [
@@ -174,9 +196,14 @@ function load(){
   });
 
   document.getElementById("playBtn").onclick = ()=>{
-    document.getElementById(t.audio).currentTime = 0;
     document.getElementById(t.audio).play();
   };
+}
+
+function showMark(id){
+  const m = document.getElementById(id);
+  m.style.display="flex";
+  setTimeout(()=>m.style.display="none",600);
 }
 
 function check(w){
@@ -184,6 +211,8 @@ function check(w){
   const sc = document.getElementById("scene");
 
   if(w === t.good){
+    document.getElementById("ok").play();
+    showMark("good");
     document.getElementById("msg").innerText = t.goodMsg;
     sc.classList.add("flash");
 
@@ -193,14 +222,18 @@ function check(w){
       if(i < tasks.length){
         load();
       } else {
+        // 2-devor foniga o‘tamiz
+        sc.style.background = 'url("Diyor-wall-catacombe-2.jpeg") center/cover no-repeat';
         document.getElementById("choices").style.display="none";
         document.getElementById("playBtn").style.display="none";
-        document.getElementById("title").innerText = "✨ Le passage secret s’ouvre…";
+        document.getElementById("title").innerText = "✨ Un nouveau mur apparaît…";
         document.getElementById("next").style.display="inline-block";
       }
     },900);
 
   } else {
+    document.getElementById("bad").play();
+    showMark("badMark");
     document.getElementById("msg").innerText = t.bad;
   }
 }
