@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 17 – La clé de lumière</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Cinzel","Times New Roman",serif;
+  background:black;
+  color:white;
+}
+.back{
+  position:fixed;top:12px;left:12px;
+  color:#6fb3ff;text-decoration:none;font-size:14px;z-index:10;
+}
+.scene{
+  min-height:100vh;
+  background:url("Diyor-wall-hieroglyph.jpeg") center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 16px;
+}
+.panel{
+  background:rgba(0,0,0,.55);
+  border-radius:20px;
+  padding:26px 22px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,200,120,.6);
+}
+h2{
+  margin-top:0;
+  font-size:26px;
+  text-shadow:0 0 14px rgba(255,200,120,.9);
+}
+.instruction{
+  font-size:18px;
+  margin:10px 0 16px;
+}
+.inputBox{
+  margin:14px 0;
+  padding:12px 14px;
+  min-height:42px;
+  border-radius:12px;
+  border:2px solid #ffd08a;
+  background:rgba(0,0,0,.6);
+  color:#fff6e0;
+  font-size:20px;
+}
+.keyboard{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+.key{
+  padding:10px 0;
+  border-radius:10px;
+  border:1px solid rgba(255,220,150,.7);
+  background:rgba(255,180,80,.15);
+  color:#fff;
+  cursor:pointer;
+}
+.key.space{ grid-column:span 3; }
+.key.back{ grid-column:span 2; }
+
+#msg{
+  margin-top:12px;
+  min-height:24px;
+  font-size:18px;
+}
+
+.btn{
+  margin-top:20px;
+  padding:14px 36px;
+  border:none;
+  border-radius:22px;
+  background:#2b7cff;
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  display:none;
+}
+.flash{
+  animation:flash 1s;
+}
+@keyframes flash{
+  0%{box-shadow:0 0 0 rgba(255,220,120,0)}
+  50%{box-shadow:0 0 80px rgba(255,220,120,.9)}
+  100%{box-shadow:0 0 0 rgba(255,220,120,0)}
+}
+</style>
+</head>
+
+<body>
+<a class="back" href="chapter16.html">← Retour</a>
+
+<audio id="applause" src="applause.mp3"></audio>
+<audio id="ok" src="correct1.mp3"></audio>
+<audio id="bad" src="wrong-answer.mp3"></audio>
+
+<div class="scene" id="scene">
+  <div class="panel" id="panel">
+    <h2>🔐 La phrase secrète</h2>
+    <div class="instruction">
+      Déchiffre le message du mur.<br>
+      Écris la phrase magique pour ouvrir la sortie.
+    </div>
+
+    <div class="inputBox" id="input"></div>
+
+    <div class="keyboard" id="kb"></div>
+
+    <div id="msg"></div>
+
+    <button class="btn" id="next" onclick="location.href='chapter18.html'">
+      Continuer →
+    </button>
+  </div>
+</div>
+
+<script>
+const target = "la lumiere ouvre le chemin";
+let value = "";
+
+const letters = [
+ "a","b","c","d","e","f","g",
+ "h","i","j","k","l","m",
+ "n","o","p","q","r","s",
+ "t","u","v","w","x","y","z",
+ "space","back","ok"
+];
+
+function buildKeyboard(){
+  const kb = document.getElementById("kb");
+  letters.forEach(l=>{
+    const k = document.createElement("div");
+    k.className = "key";
+    if(l==="space"){ k.textContent="␣"; k.classList.add("space"); }
+    else if(l==="back"){ k.textContent="⌫"; k.classList.add("back"); }
+    else if(l==="ok"){ k.textContent="✔"; }
+    else k.textContent = l;
+
+    k.onclick = ()=>press(l);
+    kb.appendChild(k);
+  });
+}
+
+function normalize(s){
+  return s.toLowerCase().replace(/\s+/g," ").trim();
+}
+
+function press(l){
+  if(l==="space") value += " ";
+  else if(l==="back") value = value.slice(0,-1);
+  else if(l==="ok"){
+    check();
+    return;
+  } else value += l;
+
+  document.getElementById("input").textContent = value;
+}
+
+function check(){
+  const sc = document.getElementById("scene");
+  if(normalize(value) === target){
+    document.getElementById("ok").play();
+    document.getElementById("applause").play();
+    document.getElementById("msg").innerText = "✨ Bravo ! La lumière t’ouvre la voie.";
+    sc.classList.add("flash");
+
+    setTimeout(()=>{
+      sc.classList.remove("flash");
+      sc.style.background = 'url("paris-sky.jpg") center/cover no-repeat';
+
+      const panel = document.getElementById("panel");
+      panel.querySelectorAll("*").forEach(el=>{
+        if(el.id !== "next") el.style.display="none";
+      });
+
+      document.getElementById("next").style.display="inline-block";
+    },1200);
+
+  } else {
+    document.getElementById("bad").play();
+    document.getElementById("msg").innerText = "Ce n’est pas encore la bonne phrase…";
+  }
+}
+
+buildKeyboard();
+</script>
+</body>
+</html>
