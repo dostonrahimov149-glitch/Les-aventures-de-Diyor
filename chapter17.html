@@ -185,11 +185,14 @@ function buildKeyboard(){
     kb.appendChild(k);
   });
 }
-
 function normalize(s){
-  return s.toLowerCase().replace(/\s+/g," ").trim();
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
 }
-
 function press(l){
   startBg();
 
