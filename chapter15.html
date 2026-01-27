@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 15 – Les murs parlent</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:black;
+  color:white;
+  text-align:center;
+}
+
+.back{
+  position:fixed;top:12px;left:12px;
+  color:#6fb3ff;text-decoration:none;font-size:14px;
+  z-index:10;
+}
+
+.scene{
+  min-height:100vh;
+  background:url("wall-catacombes.jpg") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:40px 16px;
+}
+
+.words, .slots{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+  margin:12px 0;
+}
+
+.word, .slot{
+  padding:10px 16px;
+  border-radius:12px;
+  font-size:18px;
+}
+
+.word{
+  background:rgba(255,120,0,.15);
+  color:#ffb347;
+  border:1px solid #ff9f1a;
+  cursor:pointer;
+  box-shadow:0 0 12px rgba(255,140,0,.6);
+}
+
+.slot{
+  min-width:80px;
+  min-height:38px;
+  border:2px dashed rgba(255,180,80,.6);
+}
+
+#msg{
+  margin-top:16px;
+  min-height:24px;
+  font-size:18px;
+}
+
+.shake{
+  animation:shake .4s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-6px)}
+  100%{transform:translateX(0)}
+}
+
+.btn{
+  margin-top:28px;
+  padding:16px 40px;
+  border:none;
+  border-radius:22px;
+  background:#2b7cff;
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<a class="back" href="chapter14.html">← Retour</a>
+
+<div class="scene" id="scene">
+  <h2 id="title">🪨 Le mur ancien</h2>
+  <div class="slots" id="slots"></div>
+  <div class="words" id="words"></div>
+  <div id="msg"></div>
+
+  <button class="btn" id="next" onclick="location.href='chapter16.html'">
+    Continuer →
+  </button>
+</div>
+
+<script>
+const walls = [
+  {
+    parts:["ancien","est","ce","tunnel"],
+    answer:"Ce tunnel est ancien.",
+    error:"Essaie encore…"
+  },
+  {
+    parts:["silencieux","est","cet","endroit"],
+    answer:"Cet endroit est silencieux.",
+    error:"Le mur reste fermé…"
+  },
+  {
+    parts:["froid","est","ce","lieu"],
+    answer:"Ce lieu est froid.",
+    error:"Les ombres bougent… Réessaie."
+  }
+];
+
+let index = 0;
+let current = [];
+
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+function loadWall(){
+  const w = walls[index];
+  current = [];
+  document.getElementById("title").innerText = `🪨 Mur ${index+1}`;
+  document.getElementById("msg").innerText = "";
+
+  const slots = document.getElementById("slots");
+  const words = document.getElementById("words");
+  slots.innerHTML = "";
+  words.innerHTML = "";
+
+  w.parts.forEach(()=> {
+    const s = document.createElement("div");
+    s.className = "slot";
+    slots.appendChild(s);
+  });
+
+  shuffle([...w.parts]).forEach(p=>{
+    const d = document.createElement("div");
+    d.className = "word";
+    d.innerText = p;
+    d.onclick = ()=>pick(p,d);
+    words.appendChild(d);
+  });
+}
+
+function pick(word, el){
+  const slots = document.querySelectorAll(".slot");
+  for(let s of slots){
+    if(!s.textContent){
+      s.textContent = word;
+      el.style.visibility="hidden";
+      current.push(word);
+      break;
+    }
+  }
+
+  if(current.length === walls[index].parts.length){
+    check();
+  }
+}
+
+function check(){
+  const sentence = current.join(" ");
+  const target = walls[index].answer.replace(".","");
+
+  if(sentence === target){
+    setTimeout(()=>{
+      index++;
+      if(index < walls.length){
+        loadWall();
+      } else {
+        document.getElementById("slots").style.display="none";
+        document.getElementById("words").style.display="none";
+        document.getElementById("title").innerText = "✨ Les murs s’ouvrent…";
+        document.getElementById("next").style.display="inline-block";
+      }
+    },600);
+  } else {
+    const sc = document.getElementById("scene");
+    sc.classList.add("shake");
+    document.getElementById("msg").innerText = walls[index].error;
+    setTimeout(()=>{
+      sc.classList.remove("shake");
+      reset();
+    },400);
+  }
+}
+
+function reset(){
+  current = [];
+  document.querySelectorAll(".slot").forEach(s=>s.textContent="");
+  document.querySelectorAll(".word").forEach(w=>w.style.visibility="visible");
+}
+
+loadWall();
+</script>
+
+</body>
+</html>
