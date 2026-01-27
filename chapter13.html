@@ -58,6 +58,7 @@
     font-size:20px;
     font-weight:bold;
     cursor:pointer;
+    display:none; /* avval ko‘rinmaydi */
   }
 </style>
 </head>
@@ -70,15 +71,20 @@
   <h2>📩 Message inconnu</h2>
 
   <div class="video-box">
-    <!-- Bu yerga 5 soniyalik videongiz nomini yozing -->
-    <video src="message-diyor.mp4" autoplay muted playsinline></video>
+    <video id="scene" src="message-diyor.mp4" autoplay muted loop playsinline></video>
   </div>
 
-  <button class="btn" onclick="location.href='chapter14.html'">
+  <button class="btn" id="next" onclick="location.href='chapter14.html'">
     Continuer →  
   </button>
 </div>
 
+<script>
+  // 16 soniyadan keyin tugma chiqadi
+  setTimeout(()=>{
+    document.getElementById("next").style.display = "inline-block";
+  }, 16000);
+</script>
+
 </body>
 </html>
-
