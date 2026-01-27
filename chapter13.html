@@ -58,7 +58,7 @@
     font-size:20px;
     font-weight:bold;
     cursor:pointer;
-    display:none; /* avval ko‘rinmaydi */
+    display:none;
   }
 </style>
 </head>
@@ -66,6 +66,10 @@
 <body>
 
 <a class="back" href="chapter12.html">← Retour</a>
+
+<!-- Ovozlar -->
+<audio id="mystery" src="mystery.mp3" autoplay loop></audio>
+<audio id="whispe" src="whispe.mp3"></audio>
 
 <div class="page">
   <h2>📩 Message inconnu</h2>
@@ -80,6 +84,17 @@
 </div>
 
 <script>
+  const v = document.getElementById("scene");
+  v.playbackRate = 0.5; // videoni sekinlashtiradi
+
+  const bg = document.getElementById("mystery");
+  bg.volume = 0.4; // fon musiqani yumshatadi
+
+  // 2 soniyadan keyin pichir ovozi
+  setTimeout(()=>{
+    document.getElementById("whisper").play();
+  }, 2000);
+
   // 16 soniyadan keyin tugma chiqadi
   setTimeout(()=>{
     document.getElementById("next").style.display = "inline-block";
