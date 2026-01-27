@@ -33,7 +33,7 @@ body{
 h2{
   margin-top:40px;
   font-size:28px;
-  letterği:letter-spacing:1px;
+  letter-spacing:1px;
   text-shadow:0 0 12px rgba(255,200,120,.8);
 }
 
@@ -80,10 +80,7 @@ h2{
   text-shadow:0 0 10px rgba(255,200,120,.8);
 }
 
-.shake{
-  animation:shake .4s;
-}
-
+.shake{ animation:shake .4s; }
 @keyframes shake{
   0%{transform:translateX(0)}
   25%{transform:translateX(-6px)}
@@ -129,7 +126,7 @@ h2{
 <!-- Ovozlar -->
 <audio id="ok" src="correct1.mp3"></audio>
 <audio id="bad" src="wrong-answer.mp3"></audio>
-<audio id="mist" src="mistake.mp3"></audio>
+<audio id="mist" src="mistake.mp3" loop></audio>
 
 <div class="scene" id="scene">
   <h2 id="title">🪨 Mur 1</h2>
@@ -152,31 +149,16 @@ h2{
 
 <script>
 const walls = [
-  {
-    parts:["ancien","est","ce","tunnel"],
-    answer:"ce tunnel est ancien",
-    error:"Essaie encore…"
-  },
-  {
-    parts:["silencieux","est","cet","endroit"],
-    answer:"cet endroit est silencieux",
-    error:"Le mur reste fermé…"
-  },
-  {
-    parts:["froid","est","ce","lieu"],
-    answer:"ce lieu est froid",
-    error:"Les ombres bougent… Réessaie."
-  }
+  { parts:["ancien","est","ce","tunnel"], answer:"ce tunnel est ancien", error:"Essaie encore…" },
+  { parts:["silencieux","est","cet","endroit"], answer:"cet endroit est silencieux", error:"Le mur reste fermé…" },
+  { parts:["froid","est","ce","lieu"], answer:"ce lieu est froid", error:"Les ombres bougent… Réessaie." }
 ];
 
 let index = 0;
 let current = [];
 
 function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
-
-function normalize(str){
-  return str.toLowerCase().replace(/\s+/g," ").trim();
-}
+function normalize(str){ return str.toLowerCase().replace(/\s+/g," ").trim(); }
 
 function loadWall(){
   const w = walls[index];
@@ -189,22 +171,28 @@ function loadWall(){
   slots.innerHTML = "";
   words.innerHTML = "";
 
-  w.parts.forEach(()=> {
+  w.parts.forEach(()=>{
     const s = document.createElement("div");
-    s.className = "slot";
+    s.className="slot";
     slots.appendChild(s);
   });
 
   shuffle([...w.parts]).forEach(p=>{
     const d = document.createElement("div");
-    d.className = "word";
-    d.innerText = p;
-    d.onclick = ()=>pick(p,d);
+    d.className="word";
+    d.innerText=p;
+    d.onclick=()=>pick(p,d);
     words.appendChild(d);
   });
 }
 
 function pick(word, el){
+  const bg = document.getElementById("mist");
+  if(bg.paused){
+    bg.volume = 0.4;
+    bg.play();
+  }
+
   const slots = document.querySelectorAll(".slot");
   for(let s of slots){
     if(!s.textContent){
@@ -226,28 +214,25 @@ function check(){
 
   if(sentence === target){
     document.getElementById("ok").play();
-
     const s = document.getElementById("success");
-    s.style.display = "flex";
+    s.style.display="flex";
 
     setTimeout(()=>{
-      s.style.display = "none";
+      s.style.display="none";
       index++;
       if(index < walls.length){
         loadWall();
       } else {
         document.getElementById("slots").style.display="none";
         document.getElementById("words").style.display="none";
-        document.getElementById("title").innerText = "✨ Les murs s’ouvrent…";
-        document.querySelector(".instruction").innerText =
-          "Un passage secret apparaît devant Diyor.";
+        document.getElementById("title").innerText="✨ Les murs s’ouvrent…";
+        document.querySelector(".instruction").innerText="Un passage secret apparaît devant Diyor.";
         document.getElementById("next").style.display="inline-block";
       }
     },900);
-
   } else {
     document.getElementById("bad").play();
-    const sc = document.getElementById("scene");
+    const sc=document.getElementById("scene");
     sc.classList.add("shake");
     document.getElementById("msg").innerText = walls[index].error;
     setTimeout(()=>{
@@ -258,7 +243,7 @@ function check(){
 }
 
 function reset(){
-  current = [];
+  current=[];
   document.querySelectorAll(".slot").forEach(s=>s.textContent="");
   document.querySelectorAll(".word").forEach(w=>w.style.visibility="visible");
 }
