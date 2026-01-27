@@ -33,7 +33,7 @@ body{
 h2{
   margin-top:40px;
   font-size:28px;
-  letter-spacing:1px;
+  letterği:letter-spacing:1px;
   text-shadow:0 0 12px rgba(255,200,120,.8);
 }
 
@@ -103,12 +103,33 @@ h2{
   font-weight:bold;
   display:none;
 }
+
+/* Katta to‘g‘ri belgisi */
+.success{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.6);
+  z-index:20;
+}
+.success span{
+  font-size:120px;
+  color:#6fff9a;
+  text-shadow:0 0 40px rgba(120,255,180,.9);
+}
 </style>
 </head>
 
 <body>
 
 <a class="back" href="chapter14.html">← Retour</a>
+
+<!-- Ovozlar -->
+<audio id="ok" src="correct1.mp3"></audio>
+<audio id="bad" src="wrong-answer.mp3"></audio>
+<audio id="mist" src="mistake.mp3"></audio>
 
 <div class="scene" id="scene">
   <h2 id="title">🪨 Mur 1</h2>
@@ -123,6 +144,10 @@ h2{
   <button class="btn" id="next" onclick="location.href='chapter16.html'">
     Continuer →
   </button>
+</div>
+
+<div class="success" id="success">
+  <span>✔️</span>
 </div>
 
 <script>
@@ -200,7 +225,13 @@ function check(){
   const target = normalize(walls[index].answer);
 
   if(sentence === target){
+    document.getElementById("ok").play();
+
+    const s = document.getElementById("success");
+    s.style.display = "flex";
+
     setTimeout(()=>{
+      s.style.display = "none";
       index++;
       if(index < walls.length){
         loadWall();
@@ -212,8 +243,10 @@ function check(){
           "Un passage secret apparaît devant Diyor.";
         document.getElementById("next").style.display="inline-block";
       }
-    },600);
+    },900);
+
   } else {
+    document.getElementById("bad").play();
     const sc = document.getElementById("scene");
     sc.classList.add("shake");
     document.getElementById("msg").innerText = walls[index].error;
