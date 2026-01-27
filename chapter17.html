@@ -18,8 +18,8 @@ body{
 }
 .scene{
   min-height:100vh;
- background: url("Diyor-wall-hieroglyph.jpg") center/contain no-repeat;
-background-color: black;
+  background: url("Diyor-wall-hieroglyph.jpg") center/contain no-repeat;
+  background-color: black;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -125,6 +125,7 @@ h2{
 <audio id="applause" src="applause.mp3"></audio>
 <audio id="ok" src="correct1.mp3"></audio>
 <audio id="bad" src="wrong-answer.mp3"></audio>
+<audio id="time" src="time.mp3" loop></audio>
 
 <div class="scene" id="scene">
   <div class="panel" id="panel">
@@ -151,6 +152,16 @@ h2{
 <script>
 const target = "la lumiere ouvre le chemin";
 let value = "";
+
+let bgStarted = false;
+function startBg(){
+  if(!bgStarted){
+    const t = document.getElementById("time");
+    t.volume = 0.35;
+    t.play().catch(()=>{});
+    bgStarted = true;
+  }
+}
 
 const letters = [
  "a","b","c","d","e","f","g",
@@ -180,6 +191,8 @@ function normalize(s){
 }
 
 function press(l){
+  startBg();
+
   if(l==="space") value += " ";
   else if(l==="back") value = value.slice(0,-1);
   else if(l==="ok"){ check(); return; }
@@ -215,6 +228,7 @@ function check(){
 }
 
 function toggleKb(){
+  startBg();
   document.getElementById("kb").classList.toggle("open");
 }
 function closeKb(){
