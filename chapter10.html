@@ -101,7 +101,7 @@
 <audio id="applause" src="applause.mp3"></audio>
 
 <div class="page">
-  <h2>Diyor est maintenant devant Notre-Dame de Paris</h2>
+  <h2 id="title">Diyor est maintenant devant Notre-Dame de Paris</h2>
 
   <img id="comic" src="notre-dame-comic.jpg" class="comic" alt="Diyor à Notre-Dame">
 
@@ -174,6 +174,7 @@ function check(n){
 }
 
 function finish(){
+  document.getElementById("title").style.display = "none";
   document.getElementById("quiz").style.display="none";
   document.getElementById("comic").style.display="none";
   document.getElementById("applause").play();
