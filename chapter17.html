@@ -25,6 +25,12 @@ body{
   justify-content:center;
   padding:40px 16px 140px;
 }
+.scene.final{
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:80px;
+  background: url("paris-sky.jpeg") center/cover no-repeat;
+}
 .panel{
   background: transparent;
   border-radius:20px;
@@ -87,6 +93,7 @@ h2{
   z-index:30;
 }
 .kb-wrap.open{ transform:translateY(0); }
+.kb-wrap.hide{ display:none; }
 .handle{
   text-align:center;
   padding:6px;
@@ -183,8 +190,7 @@ function buildKeyboard(){
 }
 
 function normalize(s){
-  return s
-    .toLowerCase()
+  return s.toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g,"")
     .replace(/\s+/g," ")
@@ -208,19 +214,18 @@ function check(){
     document.getElementById("ok").play();
     document.getElementById("applause").play();
     document.getElementById("msg").innerText = "✨ Bravo ! La lumière t’ouvre la voie.";
-    sc.classList.add("flash");
 
     setTimeout(()=>{
-      sc.classList.remove("flash");
-      sc.style.background = 'url("paris-sky.jpeg") center/cover no-repeat';
+      sc.classList.add("final");
 
       const panel = document.getElementById("panel");
       panel.querySelectorAll("*").forEach(el=>{
-        if(el.id !== "next") el.style.display="none";
+        if(el.id !== "next" && el.id !== "msg") el.style.display="none";
       });
 
+      document.getElementById("kb").classList.add("hide");
       document.getElementById("next").style.display="inline-block";
-    },1200);
+    },900);
   } else {
     document.getElementById("bad").play();
     document.getElementById("msg").innerText = "Ce n’est pas encore la bonne phrase…";
