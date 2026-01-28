@@ -51,9 +51,9 @@ body{
 <body>
 <a class="back" href="chapter17.html">← Retour</a>
 
-<audio id="bye" src="au-revoir.mp3" loop></audio>
+<audio id="bye" src="au-revoir.mp3" autoplay loop></audio>
 
-<div class="scene" onclick="startMusic()">
+<div class="scene">
   <div class="frame">
     <img src="final-comic-diyor-paris.jpeg" alt="Diyor – Fin de l’aventure à Paris">
     <div class="caption">
@@ -64,15 +64,11 @@ body{
 </div>
 
 <script>
-let started = false;
-function startMusic(){
-  if(!started){
-    const a = document.getElementById("bye");
-    a.volume = 0.4;
-    a.play().catch(()=>{});
-    started = true;
-  }
-}
+window.addEventListener("load", ()=>{
+  const a = document.getElementById("bye");
+  a.volume = 0.4;
+  a.play().catch(()=>{});
+});
 </script>
 
 </body>
