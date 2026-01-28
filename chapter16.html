@@ -20,13 +20,14 @@ body{
   min-height:100vh;
   background:url("Diyor-wall-catacombe.jpeg") center/cover no-repeat;
   display:flex;
-  align-items:center;
+  align-items:flex-end;
+  justify-content:flex-end;
   padding:40px 16px;
 }
 .panel{
-  margin-left:auto;
   margin-right:6%;
   max-width:360px;
+  width:100%;
   text-align:center;
 }
 h2{
@@ -84,9 +85,15 @@ h2{
 }
 .mark span{font-size:120px;}
 .btn{
-  margin-top:24px;padding:16px 40px;border:none;
-  border-radius:22px;background:#2b7cff;color:white;
-  font-size:20px;font-weight:bold;display:none;
+  margin-top:40px;
+  padding:16px 40px;
+  border:none;
+  border-radius:22px;
+  background:#2b7cff;
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  display:none;
 }
 </style>
 </head>
@@ -94,7 +101,6 @@ h2{
 <body>
 <a class="back" href="chapter15.html">← Retour</a>
 
-<!-- Audios -->
 <audio id="a1" src="silence.mp3"></audio>
 <audio id="a2" src="ombre.mp3"></audio>
 <audio id="a3" src="secret.mp3"></audio>
@@ -169,7 +175,6 @@ function check(w){
       if(i < tasks.length){
         load();
       } else {
-        // Oxirgi ochilish
         document.getElementById("reveal").play();
         sc.style.background = 'url("Diyor-wall-catacombe-2.jpg") center/cover no-repeat';
 
